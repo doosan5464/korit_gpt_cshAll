@@ -1,0 +1,23 @@
+.main-article {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px 20px 30px;
+
+    & input,
+    & textarea {
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        outline: none; /*텍스트박스 눌렀을때 나오는 테두리 삭제*/
+        border: none;
+        border-radius: 5px;
+        padding: 15px 20px;
+        background-color: #fafafa;
+    }
+
+    & textarea {
+         flex-grow: 1;
+        resize: none; /*textarea의 마우스로 넓히는 기능 삭제*/
+    }
+}
+

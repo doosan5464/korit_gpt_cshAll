@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script> // 자바스크립트 사용 가능 // 스크립트는 항상 제일 아래(</body> 위에)
+        window.alert("알림창"); // 단순 알림창. windows. -> 생략 가능
+        if(window.confirm("확인 하시겠습니까?")) { // 예 or 아니오 선택창. true false로 반환
+            alert("확인되었습니다");
+        } else {
+            alert("취소되었습니다");
+        }
+
+        let name = "";
+        while(true) {
+            name = window.prompt("이름을 입력하세요"); // 입력창
+            if(!!name) { // !! : name을 boolean으로 반환시킬려고 
+                break;
+            }
+            alert("이름은 공백일 수 없습니다");
+        }    
+        alert(`입력하신 이름은 ${name}입니다`);
+
+    </script>
+</body>
+</html>

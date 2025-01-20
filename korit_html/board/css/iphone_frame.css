@@ -1,0 +1,82 @@
+#root {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+
+}
+
+.container {
+    position: relative;
+    box-sizing: border-box;
+    border: 4px solid #afafaf;
+    border-radius: 45px;
+    width: 402px;
+    height: 874px;
+    box-shadow: 0px 0px 2px 5px #000000 inset; /*inset : 그림자를 안쪽으로*/
+    overflow: hidden;
+}
+
+.phone-header {
+    position: absolute; /*아이폰은 위로 스크롤 올릴때 제일 끝까지 올라가니까*/
+    display: flex;
+    justify-content: space-between; /*공백을 양 끝으로 그리고 사이?*/
+    align-items: center;
+    width: 100%;
+    height: 60px;
+}
+
+.dynamic-island {
+    box-sizing: border-box;
+    border-radius: 25px;
+    width: 150px;
+    height: 25px;
+    background-color: #000000;
+}
+
+.phone-header-left,
+.phone-header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    width: 100px;
+    height: 100%;
+
+}
+
+    .phone-header-left {
+
+        & > .phone-clock {
+            font-weight: 600;
+            color: #eeeeee;
+            cursor: default;
+        }
+    }
+
+.phone-header-right {
+    
+    & svg {
+        width: 20px;
+        height: 20px;
+        margin-left: 3px;
+        fill: #eeeeee;
+        stroke: #eeeeee;
+    }
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 60px; /*input같은거 여러개넣어서 위에 침범 못하게*/
+    width: 100%;
+    height: 100%;
+    background-color: #111111;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar { /*input같은거 여러개 넣으면 스크롤바 생기는데 안보이게*/
+        display: none;
+    }
+}

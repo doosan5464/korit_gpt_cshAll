@@ -1,0 +1,33 @@
+.search-items {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    & > * {
+        margin-left: 5px;
+    }
+
+    & > select,
+    & > input {
+        box-sizing: border-box;
+        outline: none;
+        border: 1px solid #dbdbdb;
+        padding: 5px 10px;
+    }
+
+    & > button {
+        box-sizing: border-box;
+        border: 1px solid #dbdbdb;
+        padding: 5px 15px;
+        background-color: #ffffff;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fafafa;
+        }
+        &:active {
+            background-color: #eeeeee;
+        }
+    }
+}

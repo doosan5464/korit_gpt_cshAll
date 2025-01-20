@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+        }
+
+        .box1 {
+            background-color: red;
+            margin-bottom: 30px; /*마진은 위아래로 중첩현상 o 양옆으로는 x*/
+        }
+        .box2 {
+            background-color: blue;
+            margin-bottom: 30px; /*80이 아닌 더 큰 50으로*/
+        }
+        .box3 {
+            background-color: yellow;
+        }
+    </style>
+
+</head>
+<body> <! "클래스명 클래스명" - 중첩 클래스>
+    <div class="box box1"></div> 
+    <div class="box box2"></div>
+    <div class="box box3"></div>
+</body>
+</html>

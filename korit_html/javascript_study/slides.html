@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .slide {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            box-sizing: border-box;
+            margin: 100px auto;
+            border: 1px solid #dbdbdb;
+            width: 1200px;
+            height: 400px;
+            overflow: hidden;
+
+            & > img {
+                width: 100%;
+            }
+
+            & > .prev-button,
+            & > .next-button {
+                position: absolute;
+                transform: translateY(-50%);
+                top: 50%;
+                border: none;
+                padding: 10px;
+                background-color: transparent;
+                cursor: pointer;
+
+                & > svg {
+                    height: 100px;
+                }
+            }
+
+
+            & > .prev-button {
+                left: 50px;
+            }
+            
+            & > .next-button {
+                right: 50px;;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <button class="prev-button"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16"  xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223"></path></svg></button>
+        <img src="" alt="">
+        <button class="next-button"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16"  xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671"></path></svg></button>
+    </div>
+    
+    <script>
+        let currentIndex = 0;
+
+        const urlList = [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7OrtM7FfDgFfgOmRqL4R__bU5cjx1ltwy1A&s",
+            "https://velog.velcdn.com/images/ymh0951/post/ec877c43-d72f-45b3-8c37-46be92d92fa5/image.png",
+            "https://velog.velcdn.com/images/manimm1/post/085da37f-eb14-4bce-b6f7-f947d7273d88/image.png",
+            "https://bairesdev.mo.cloudinary.net/blog/2023/08/What-Is-JavaScript-Used-For.jpg?tx=w_1920,q_auto",
+        ]
+
+        function handlePrevOnClick() {
+            if(currentIndex !== 0) { 
+                currentIndex--;
+            } else {
+                currentIndex = 0;
+            }
+            const imgElement = document.querySelector(".slide > img");
+            imgElement.src = urlList[currentIndex];
+        }
+        function handleNextOnClick() {
+            if(currentIndex !== urlList.length-1) { 
+                currentIndex++;
+            } else {
+                currentIndex = urlList.length-1;
+            }
+            const imgElement = document.querySelector(".slide > img");
+            imgElement.src = urlList[currentIndex];
+        }
+
+        window.onload = () => { 
+            const imgElement = document.querySelector(".slide > img");
+            imgElement.src = urlList[currentIndex]; 
+            const imgLeftElement = document.querySelector(".slide > .prev-button"); // 왼쪽버튼
+            const imgRightElement = document.querySelector(".slide > .next-button"); // 오른쪽버튼
+            imgLeftElement.onclick = handlePrevOnClick;    
+            imgRightElement.onclick = handleNextOnClick;    
+        } 
+    </script>
+</body>
+</html>

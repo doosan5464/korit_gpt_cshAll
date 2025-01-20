@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="text-input">
+    <input type="text" class="text-input2">
+    <button class="submit-button">확인</button>
+    <script>
+        let data = {
+            text1: "",
+            text2: "",
+        }
+
+        function handleInputOnKeyDown(e) { // e를 통해 이벤트 객체에 접근하고, 어떤 키가 눌렸는지 확인
+            if(e.keyCode !== 13) { // 자바스크립트 키코드. 13은 Enter
+                return;
+            }
+            const nextInput = document.querySelector(".text-input2"); // text-input2를 저장해놓고
+            nextInput.focus(); // text-input2에 마우스커서 이동
+        }
+        function handleInputOnKeyDown2(e) {
+            if(e.keyCode !== 13) {
+                return;
+            }
+            const submitButton = document.querySelector(".submit-button");
+            submitButton.focus();
+        }
+
+        function handleInputOnChange() { // 직접 document.querySelector를 호출해서 입력 요소를 찾아와서 값을 가져옴
+            const inputElement = document.querySelector(".text-input");
+            data = {
+                ...data, // 스프레드하고 text1을 덮어씌움
+                text1: inputElement.value, // 이벤트가 발생한 요소의 값을 가져옴
+            }
+        }
+        function handleInputOnChange2(e) { // event객체를 줄여서 e 
+            data = {
+                ...data,
+                text2: e.target.value, // 매개변수로 event를 받았기 때문에 굳이 직접 안찾고 e.target.value로 값을 얻음 
+            }
+        }
+        function handleSubmitOnChange(e) {
+            // console.log(e);
+            // if(e.ctrKey && e.altkey) {
+            //     console.log(data);
+            // }
+            console.log(data);
+        }
+
+        window.onload = () => { 
+            const textInputElement = document.querySelector(".text-input");
+            const textInputElement2 = document.querySelector(".text-input2");
+            const submitButtonElement = document.querySelector(".submit-button");
+            // onkeydown은 누르자 마자여서 a를 입력하면 그 전 공백이 먼저 저장. - 엔터때 사용
+            textInputElement.onkeyup = handleInputOnChange; // onkeyup은 누르고 뗀 다음 저장. a를 입력하면 a 그대로 저장
+            textInputElement2.onkeyup = handleInputOnChange2;
+            textInputElement.onkeydown = handleInputOnKeyDown; // 키보드를 누를 때마다 handleInputOnKeyDown을 실행하면서 이벤트 객체를 자동으로 전달
+            textInputElement2.onkeydown = handleInputOnKeyDown2;
+            submitButtonElement.onclick = handleSubmitOnChange;
+        }
+    </script>
+</body>
+</html>

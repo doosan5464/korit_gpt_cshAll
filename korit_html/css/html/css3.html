@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            background-color: #fafafa;
+        }
+
+        .box1{
+            box-sizing: border-box;
+            margin: 100px 200px 300px; /*위 오른 아래 옆 생략시 그걸로 4방향하는데 2개를 치면 반대방향에 적용*/
+            border: 0px solid red;
+            border-width: 2px 3px 4px 5px; /*border-width 는 4방향 가능.  그냥 border는 안되고*/
+            /*margin-top: 100px;
+            margin-left: 300px;
+            margin-right: 3px; 
+            margin-bottom: 3px;*/ /*3px 이유 : 그림자의 번짐이 3px인데 이게 사각형범위를 벗어나서 다른거에 겹칠수도 있기 때문*/
+            border-radius: 10px 20px 30px 40px; /*마찬가지로 4방향 따로 설정 가능*/
+            width: 400px;
+            height: 400px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 5px 3px #00000044; /*rgb 6자리 이후 2자리 -> 알파 : 투명도*/
+        }
+
+        .profile-img-circle {
+            box-sizing: border-box;
+            border: 1px solid #dbdbdb;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            overflow: hidden; /*다 씀*/
+            background-color: #eeeeee;
+        }
+
+        /*이미지의 짧은쪽에 맞춰서 넣는다*/
+        .profile-img {
+            width: 100%;
+        }
+
+        .div-button {
+            margin: 40px auto; /*auto : 남은 영역에 대해 센터로 보내줌*/
+            border: 1px solid #555555;
+            border-radius: 50%;
+            padding: 5px 20px;
+            width: fit-content;
+            background-color: #F0F0F0;
+            font-size: 13.33333px;
+            cursor: pointer; /*or default*/
+        }
+
+        button {
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            padding: 5px 20px; /*글자만큼 버튼이 넓어져야 해서 width 지정 x padding으로*/
+
+            background-color: #ffffff;
+            cursor: pointer;
+            
+            &:hover { /*마우스 올렸을 때*/
+                background-color: #5d82e7;
+                color: #555555;
+            }
+
+            &:active { /*마우스 눌렀을 때*/
+                background-color: #eeeeee;
+                color: #e01616;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <div class="profile-img-circle">
+            <img class="profile-img"src="https://i.namu.wiki/i/MuCO_ocla-FyadGnRZytkRLggQOcqxv_hXNjN7aYXDOPivIChJNdiRXp6vwSXbM6GcUL3pVTL-5U5TKQ0f1YhA.svg" alt="">
+        </div>
+        <button>버튼</button> 
+        <div class="div-button">버튼</div>
+    </div>
+    <! 버튼은 이미 디자인이 있음>
+</body>
+</html>

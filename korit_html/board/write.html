@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/iphone_frame.css">
+    <link rel="stylesheet" href="./css/write_header.css">
+    <link rel="stylesheet" href="./css/main_article.css">
+</head>
+<body>
+    <div id="root">
+        <div class="container">
+            <header class="phone-header">
+                <div class="phone-header-left">
+                    <span class="phone-clock"></span>
+                </div>
+                <div class="dynamic-island"></div>
+                <div class="phone-header-right">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M496 432h-96V80h96zm-128 0h-96V160h96zm-128 0h-96V224h96zm-128 0H16V288h96z"></path></svg>
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="square" stroke-linejoin="round" stroke-width="42" d="M332.69 320a115 115 0 0 0-152.8 0m213.85-61a201.26 201.26 0 0 0-274.92 0M448 191.52a288 288 0 0 0-383.44 0"></path><path d="M300.67 384 256 433l-44.34-49a56.73 56.73 0 0 1 88.92 0z"></path></svg>
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M396 144H64c-26.4 0-48 21.6-48 48v128c0 26.4 21.6 48 48 48h332c26.4 0 48-21.6 48-48V192c0-26.4-21.6-48-48-48zm20 176c0 11-9 20-20 20H64c-11 0-20-9-20-20V192c0-11 9-20 20-20h332c11 0 20 9 20 20v128zM464 204.6v102.8c16 0 32-27.7 32-51.4s-16-51.4-32-51.4z"></path><path d="M384 192H76c-6.6 0-12 5.4-12 12v104c0 6.6 5.4 12 12 12h308c6.6 0 12-5.4 12-12V204c0-6.6-5.4-12-12-12z"></path></svg>
+                </div>
+            </header>
+            <main class="main-layout">
+                <header class="main-header">
+                    <a class="back-button" href="javascript:void(0);"> 
+                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M217.9 256L345 129c9.4-9.4 9.4-24.6 0-33.9-9.4-9.4-24.6-9.3-34 0L167 239c-9.1 9.1-9.3 23.7-.7 33.1L310.9 417c4.7 4.7 10.9 7 17 7s12.3-2.3 17-7c9.4-9.4 9.4-24.6 0-33.9L217.9 256z"></path></svg>
+                    </a>
+
+                    <h1 class="main-header-title">글 작성</h1>
+                    <a class="write-submit-button" href="javascript:void(0);">
+                        저장
+                    </a>
+                </header>
+                <article class="main-article">
+                    <input type="text" name="title" placeholder="제목을 입력하세요">
+                    <textarea name="content" placeholder="내용을 입력하세요"></textarea>
+                    <input type="text" name="writer" placeholder="작성자명을 입력하세요">
+                </article>
+            </main>
+        </div>
+    </div>
+    
+    <script src="./js/clock.js"></script>
+    <script src="./js/back.js"></script>
+    <script src="./js/write_service.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+/*기본 세팅*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap'); 
+/*구글 웹폰트, 인터넷 연결 끊기면 적용이 안됨*/
+
+* {
+    font-family: "Noto Sans KR", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #222222;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}

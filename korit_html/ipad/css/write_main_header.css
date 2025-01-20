@@ -1,0 +1,35 @@
+.main-layout { /*device-header걸 덮어씌울려고*/
+    padding: 0 0 20px;
+}
+
+.main-header {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px 0;
+    width: 100%;
+}
+
+.back-button {
+    width: 50px;
+    & > svg {
+        width: 30px;
+        height: 30px;
+        fill: #eec98d;
+    }
+}
+
+.main-header-title {
+    margin: 0;
+    color: #eec98d;
+    font-weight: 800;
+    cursor: default;
+}
+
+.write-submit-button {
+    width: 50px;
+    font-weight: 800;
+    color: #eec98d;
+    letter-spacing: 2px;
+}

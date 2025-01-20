@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main-box {
+            position: relative;
+            margin: 100px auto;
+            border: 3px solid #333333;
+            width: 600px;
+            height: 400px;
+        }
+
+        .sub-box1,
+        .sub-box2 {
+            width: 100px;
+            height: 100px;
+        }
+
+        .sub-box1 {
+            background-color: red;
+        }
+        .sub-box2 {
+            position: absolute; /*static에서 벗어나야 위치를 지정할 수 있다*/
+            top: 100px;
+            left: 100px;
+            background-color: yellow;
+        }
+
+        .sub-box1-2 {
+            position: relative;
+            border: 5px solid #222222;
+            width: 200px;
+            height: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-box">
+        <div class="sub-box1"></div>
+            <div class="sub-box1-2">
+                <div class="sub-box2">
+                </div>
+            </div>
+    </div>
+</body>
+</html>

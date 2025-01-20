@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=false, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @keyframes a {
+            0% {
+                left: 0;
+                top: 0;
+            }
+            50% {
+                left: 50%;
+            }
+            100% {
+                top: 400px;
+                left: 400px
+            }
+        }
+        @keyframes b {
+            0% {
+                right: 0;
+                top: 0;
+            }
+            100% {
+                top: 400px;
+                right: 400px
+            }
+        }
+        .mainbox {
+            position: relative;
+            margin: 200px auto;
+            border: 1px solid #222222;
+            width: 500px;
+            height: 500px;
+        }
+        .box {
+            position: absolute;
+            border: 1px solid #222222;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            animation-duration: 1s;
+            animation-direction: normal;
+            animation-iteration-count: infinite;
+        }
+
+        .box1 {
+            animation-name: a;
+        }
+        .box2 {
+            animation-name: b;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="mainbox">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+    </div>
+
+</body>
+</html>

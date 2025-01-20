@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box1" class="box">
+        <input type="text">
+    </div>
+    <div class="box">
+
+    </div>
+    <script> 
+        const idBox1 = document.getElementById("box1");
+        console.log(idBox1);
+        const boxList = document.getElementsByClassName("box");
+        console.log(boxList);
+        const divList = document.getElementsByTagName("div");
+        console.log(divList);
+
+        // 위에보단 이걸 더 자주 사용
+        const idBox2 = document.querySelector("box1"); // 하나만. 단수 - id
+        const boxList2 = document.querySelectorAll(".box"); // 여러개. 복수 - class
+        const divList2 = document.querySelectorAll("div");  // - tag
+        const box = document.querySelector(".box"); // 단수에서 클래스를 찾을 수 있지만 첫번째 것만 가져옴. 단수니까
+
+        boxList2[1].innerHTML = "<input />"; // 자바 스크립트로 html 넣기
+    </script>
+</body>
+</html>

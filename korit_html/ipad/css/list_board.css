@@ -1,0 +1,58 @@
+.list-board {
+    box-sizing: border-box;
+    padding: 20px 20px 0;
+    height: 320px;
+    overflow: auto;
+    &::-webkit-scrollbar { /*스크롤바 없앰*/
+        display: none;
+    }
+}
+
+.board-box {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    height: 150px;
+    background-color: #cec7c7;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        box-shadow: 0px 0px 10px 5px #eeeeee44;
+    }
+}
+
+.board-header {
+    & > h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: default;
+    }
+}
+
+.board-main {
+    /* flex-grow: 1; */
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    & textarea {
+        width: 100%;
+        height: 100%;
+        resize: none; /*textarea 사이즈조절 없애기*/
+        border: none;
+        background-color: #cec7c7;
+        pointer-events : none; /*마우스커서 못올리게*/
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+    }
+}

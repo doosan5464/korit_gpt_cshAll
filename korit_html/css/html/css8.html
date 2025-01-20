@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body > div {
+            position: relative;
+            margin: 200px auto;
+            border: 1px solid #222222;
+            width: 500px;
+            height: 600px;
+        }
+        div > div {
+            position: absolute;
+            transform: translate(-50%, -50%); /*top 50%의 기준은 그 블럭의 상단 테두리라서 그 반만큼 위로 올리면 가운데가 축이 된다*/ /*캐스캐이딩의 속성때문에 따로주면 안되고 이렇게 같은 한 줄에 줘야 함*/
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 100px;
+            background-color: red;
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+                border-radius: 50%;
+                width: 100px;
+            }
+        }
+
+        div > input {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            transition: all 0.5s ease-in-out;
+            background-color: blue;
+
+            &:focus {
+                border-radius: 50%;
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div></div>
+    </div>
+
+    <div>
+        <input type="text">
+    </div>
+</body>
+</html>

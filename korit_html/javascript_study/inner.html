@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="setInnerText()">text</button>
+    <button onclick="setInnerHtml()">html</button>
+    <h1 class="now">현재 시간: <span></span></h1>
+    
+
+    <script>
+        function setInnerText() {
+            const date = new Date().toISOString();
+            const nowElement = document.querySelector(".now > span");
+            // nowElement.querySelector(".now > span"); // document는 현재 html을 다 포함하는 객체.  
+            nowElement.innerText = `<i>${date}</i>`;
+        }
+        function setInnerHtml() {
+            const date = new Date().toISOString();
+            const nowElement = document.querySelector(".now > span");
+            nowElement.innerHTML = `<i>${date}</i>`;
+        }
+    </script>
+</body>
+</html>

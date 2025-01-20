@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table> <! 테이블에 넣는 이유 : 항상 일정한 모양을 유지해서?>
+        <tbody>
+            <tr>
+                <th><label for="10">사용자 이름</label></th>
+                <td><input type="text" id="10" autofocus="true" placeholder="사용자 이름을 입력하세요."></td> <! id 속성은 무조건 있다>
+            </tr>
+
+            <tr>
+                <th><label for="20">비밀번호</label></th>
+                <td><input type="password" id="20"></td>
+            </tr>
+
+            <tr>
+                <th><label for="25">성명</label></th>
+                <td><input type="text" id="25" value="최석현" disabled="true"></td> <! disabled 대신에 readonly도 되지만 선택이되서 잘 안쓴다, ="true" 생략 가능>
+            </tr>
+
+            <tr>
+                <th><label for="30">취미</label></th>
+                <td>
+                    <input type="checkbox" id="30" disabled>
+                    <label for="">축구</label>
+                    <input type="checkbox" id="40" checked="true">
+                    <label for="">농구</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th><label for="50">성별</label></th>
+                <td>
+                    <input type="radio" id="50" name="gender" checked="true">
+                    <label for="50">남</label>
+                    <input type="radio" id="60" name="gender">
+                    <label for="60">여</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th><label for="70">점수</label></th>
+                <td><input type="number" id="70" min="0" max="100"></td>
+            </tr>
+
+            <tr>
+                <th><label for="80">레벨</label></th>
+                <td><input type="range" id="80" min="1" max="10"></td>
+            </tr>
+
+            <tr>
+                <th><label for="90">프로필 사진</label></th>
+                <td><input type="file" id="90"></td>
+            </tr>
+
+            <tr>
+                <th><label for="95">생년월일</label></th>
+                <td>
+                    <select id="95">
+                        <option value="0">년</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+                    <select id="96">
+                        <option value="0">월</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10                                                                               ">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <select id="97">
+                        <option value="0">일</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th><label for="100">자기소개</label></th>
+                <td><textarea id="100" placeholder="자기소개 내용을 입력하세요"></textarea></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button disabled="true">가입하기</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테이블 학습1</title>
+
+    <style>
+        table {
+            border-collapse:collapse; /*2줄짜리가 있다면 1줄로 합쳐라*/
+        }
+
+        th,td {
+            border-width:1px; /*구분선의 굵기*/
+            border-color:black; /*구분선의 색깔*/
+            border-style:solid; /*구분선 스타일?*/
+            padding:10px; /*안쪽 여백*/
+        }
+        /* td {
+            border-width:1px; 
+            border-color:black;
+            border-style:solid;
+        } */
+    </style>
+
+
+</head>
+<body>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>연락처</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td rowspan="2">홍길동</td>
+            <td>asdd@gmail.com</td>
+            <td>010-1234-5678</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            
+            <td>asdd2@gmail.com</td>
+            <td>010-8888-9999</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/korit_7_gpt_java" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/korit_database" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/korit_html" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/korit_react" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/korit_servlet" vcs="Git" />
+  </component>
+</project>

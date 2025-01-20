@@ -1,0 +1,105 @@
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <style>
+            .box1 > div > div {     /*부모 - 자식 > 자식*/
+                border: 10px solid #222222;
+                width: 100px;
+                height: 100px;
+                background-color: red;
+
+                & > div > div {     /*& : 나 자신(this) > 자식 > 자식*/
+                    width: 50px;
+                    height: 50px;
+                    background-color: #ffffff;
+                }
+            }
+            .box1 + div > div > div {   /*기준 - 형제 > 자식 > 자식*/
+                width: 100px;
+                height: 100px;
+                background-color: blue;
+            }
+
+            .checkbox-group {
+                box-sizing: border-box;
+                border: 1px solid #222222;
+                padding: 20px;
+
+                & input[type="checkbox"] {
+                    display: none;
+                }
+
+                & input[type="checkbox"] + label {
+                    display: inline-block;
+                    box-sizing: border-box;
+                    border: 2px solid #222222;
+                    padding: 5px;
+                    width: 35px;
+                    height: 35px;
+                    background-clip: content-box;
+                }
+
+                & input[type="checkbox"]:checked + label {
+                    background-color: red;
+                }
+            }
+
+
+
+            input[type="text"] {
+                box-sizing: border-box;
+                margin: 20px 0px;
+                outline: none;
+                border: 2px solid #222222;
+                padding: 0px 20px;
+                width: 400px;
+                height: 50px;
+            }
+
+            input[type="text"]:focus {
+                background-color: #fafafa;
+            }
+
+
+
+        </style>
+
+    </head>
+    <body>
+
+        <div class="box1">
+            <div>
+                <div></div>
+            </div>
+        </div>
+
+        <div class="box2">
+            <div>
+                <div></div>
+            </div>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="chk1">
+            <label for="chk1"></label>
+            <label for="chk1">Java</label>
+
+            <input type="checkbox" id="chk2">
+            <label for="chk2"></label>
+            <label for="chk2">Python</label>
+
+            <input type="checkbox" id="chk3">
+            <label for="chk3"></label>
+            <label for="chk3">HTML</label>
+        </div>
+
+        <div>
+            <input type="text">
+        </div>
+
+    </body>
+    </html>

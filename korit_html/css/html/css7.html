@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div *:not(p:nth-of-type(2)),
+        div *:not(p:nth-last-of-type(2)){
+            background-color: red;
+        }
+
+        div > p:nth-of-type(2) {    /*p:nth-of-type(2) : p 태그중에 2번째*/
+            background-color: green;
+        }
+
+        div > p:nth-last-of-type(2) {  /*p:nth-last-of-type(2) : p 태그중에 마지막에서 2번째*/
+            background-color: yellow;
+        }
+
+        div > h1:nth-of-type(2n-1) {
+            background-color: brown;
+        }
+
+        div > div > .or {
+            background-color: #ffffff;
+
+            &::before,
+            &::after {
+                content: "";
+                display: inline-block;
+                margin: 0px 5px;
+                border-top: 1px solid #222222;
+                width: 100px;
+                
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>텍스트11</h1>
+        <h1>텍스트12</h1>
+        <h1>텍스트13</h1>
+        <h1>텍스트14</h1>
+        <h1>텍스트15</h1>
+        <p>텍스트2</p>
+        <p>텍스트3</p>
+        <p>텍스트4</p>
+        <p>텍스트5</p>
+        <input type="text">
+
+        <div>
+            <span class="or">또는</span>
+        </div>
+
+
+    </div>
+</body>
+</html>

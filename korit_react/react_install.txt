@@ -1,0 +1,12 @@
+npx create-react-app react-study
+
+npm install react@18 react-dom@18 @testing-library/jest-dom@5.17.0 @testing-library/react@13.4.0 @testing-library/user-event@13.5.0 web-vitals
+
+
+node_modules 폴더가 없을 때
+npm install
+입력하면 package.json에 등록된 라이브러리 자동 설치
+
+
+프로젝트 실행
+npm start 프로젝트 폴더로 꼭 이동한 다음에 실행

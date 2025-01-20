@@ -1,0 +1,37 @@
+.main-layout-write-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px 20px 30px;
+    
+    & input,
+    & textarea {
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        outline: none; /*텍스트박스 눌렀을때 나오는 테두리 삭제*/
+        border: none;
+        border-radius: 5px;
+        padding: 15px 20px;
+        background-color: #cec7c7;
+    }
+    
+    & textarea {
+        flex-grow: 1;
+        resize: none; /*textarea의 마우스로 넓히는 기능 삭제*/
+    }
+    
+    & ::placeholder { /*언제 :: 이거를 붙이는지*/
+        color: #000000;
+    }
+}
+
+.write-password {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    height: 47px;
+    background-color: #cec7c7;
+    border: none;
+    outline: none;
+}
