@@ -26,19 +26,16 @@ public class BookRestServlet extends HttpServlet {
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper(); // JSON 데이터와 Java 객체 간의 변환을 처리하는 데 사용
-        String jsonBt = objectMapper.writeValueAsString(bt); // JSON으로 변환?
-        resp.setContentType("application/json"); // application을 json 타입으로 잡는다?
+        String jsonBt = objectMapper.writeValueAsString(bt); // BookTemp 객체를 JSON 문자열로 변환
+        resp.setContentType("application/json"); // application을 json 타입으로 잡는다 / 응답의 콘텐츠 타입을 JSON으로 설정
         System.out.println(jsonBt);
-
 
 //        resp.setHeader("Access-Control-Allow-Origin", "*");
 //        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 //        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
 //        resp.setHeader("Access-Control-Allow-Credentials", "true");
 
-
         resp.getWriter().println(jsonBt);
-
     }
 
     @Override

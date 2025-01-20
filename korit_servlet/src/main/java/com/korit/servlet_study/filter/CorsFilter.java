@@ -4,20 +4,25 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-// setHeader 여기서 자동으로
 
+// setHeader 여기서 자동으로
 @WebFilter("*") // 자바 서블릿 필터를 특정 URL 패턴에 매핑, web.xml 설정 파일에 따로 필터를 등록하지 않아도 자동으로 필터가 적용
 public class CorsFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        HttpServletResponse res = (HttpServletResponse) response; // 업캐스팅을 해줘야 한다?
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        res.setHeader("Access-Control-Allow-Credentials", "true");
+        HttpServletResponse res = (HttpServletResponse) response;
+        // ServletResponse를 HttpServletResponse로 다운캐스팅
+
+        // CORS 정책을 허용하기 위해 응답 헤더 설정
+        res.setHeader("Access-Control-Allow-Origin", "*");  // 모든 도메인에서의 요청 허용
+        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");  // 허용하는 HTTP 메서드
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");  // 허용하는 요청 헤더
+        res.setHeader("Access-Control-Allow-Credentials", "true");  // 인증 정보 허용
 
         chain.doFilter(request, response);
+        // 다음 필터로 요청을 전달하거나 최종적으로 서블릿이 요청을 처리하도록 넘김
+
     }
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,6 +32,4 @@ public class CorsFilter implements Filter {
     public void destroy() {
 
     }
-
-
 }

@@ -40,7 +40,7 @@ function App14(props) {
 
     return (
         <div>
-            <button onClick={handleRequestOnClick}>요청</button>        
+            <button onClick={handleRequestOnClick}>유저요청</button>        
             <button onClick={handleBookRequestOnClick}>도서요청</button>        
         </div>
     );
