@@ -2,7 +2,7 @@
 import * as s from './style';
 import React from 'react';
 import { LuLayoutList, LuLogIn, LuNotebookPen, LuUserRoundPlus } from 'react-icons/lu'; // react icons 에서 들고옴
-import { Link } from 'react-router-dom'; // Link는 내부적으로 a 태그를 사용하기 때문에 & a 스타일링이 적용된다
+import { Link } from 'react-router-dom'; // Link는 곧 a 태그로 바꿔 사용하기 때문에 & a 스타일링이 적용된다
 
 
 // a 태그는 전체적으로 재렌더링이 일어나버림

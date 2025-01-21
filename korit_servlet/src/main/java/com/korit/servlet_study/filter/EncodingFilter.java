@@ -11,7 +11,7 @@ public class EncodingFilter implements Filter {
     @Override
     // 클라이언트의 요청이나 응답이 필터를 통과할 때마다 호출
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("필터~");
+        System.out.println("필터 시작");
         HttpServletRequest req = (HttpServletRequest) servletRequest;
 
         servletRequest.setCharacterEncoding("UTF-8");
@@ -20,7 +20,7 @@ public class EncodingFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse); // 다음 필터나 서블릿이 실행
         // doFilter()가 호출될 때, 필터 체인 객체는 현재 위치를 기억하고 다음 필터를 호출할 뿐, 다시 처음부터 호출하지 않음
 
-        System.out.println("후처리");
+        System.out.println("필터 끝");
 
     }
 

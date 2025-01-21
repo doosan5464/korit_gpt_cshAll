@@ -9,12 +9,12 @@ export const layout = css`
     width: 100%;
     padding: 25px 10px 10px;
 
-    & a {
+    & a { // layout안에 있는 모든 ~
         text-decoration: none;
         color: #222222;
     }
 
-    & ul {
+    & ul { // layout안에 있는 모든 ~
         list-style-type: none;
         margin: 0;
         padding: 0;
