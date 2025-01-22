@@ -4,6 +4,10 @@ import { Route, Routes } from "react-router-dom";
 
 import IndexPage from "./pages/IndexPage/IndexPage";
 import WritePage from "./pages/WritePage/WritePage";
+import ListPage from "./pages/ListPage/ListPage";
+import MainLayout from "./components/MainLayout/MainLayout";
+import SignupPage from "./pages/SignupPage/SignupPage";
+import SigninPage from "./pages/SigninPage/SigninPage";
 // 컴포넌트 분리
 
 import { Global } from "@emotion/react";
@@ -12,7 +16,6 @@ import { Global } from "@emotion/react";
 import { global } from "./styles/global";
 // Global을 뒤덮을 새로운 css. 여기 스타일이 전체 어플링케이션에 정의됨
 
-import MainLayout from "./components/MainLayout/MainLayout";
 
 function App() {
   
@@ -24,6 +27,10 @@ function App() {
         <Routes>
           <Route path="/" element={ <IndexPage /> } />
           <Route path="/write" element={ <WritePage /> } />
+          <Route path="/list" element={ <ListPage /> } />
+          <Route path="/signup" element={ <SignupPage /> } />
+          <Route path="/signin" element={ <SigninPage /> } />
+
         </Routes>
       </MainLayout>
     </>

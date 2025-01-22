@@ -29,10 +29,7 @@ public class BoardDao {
     }
 
 
-
-    // 왜 Optional<Board>?? -> 지금은 별로 활용이 안되는데 spring가면 잘 활용됨
-    // null을 원래 처리하려면 if로 null이면 처리하고 그래야하는데 그걸 대신함
-    public Optional<Board> save(Board board) {
+    public Board save(Board board) {
         Board insertedBoard = null; // ??
         Connection con = null; // db 연결 관리
         PreparedStatement ps = null; // 쿼리 실행 결과 저장할 곳 // 빈 쿼리창
@@ -79,6 +76,6 @@ public class BoardDao {
         } finally {
             dbConnectionMgr.freeConnection(con, ps); // 연결된 데이터베이스 리소스를 해제
         }
-        return Optional.ofNullable(insertedBoard); // insertedBoard가 null일 수도 있는 상황에서, Optional로 감싸서 반환
+        return insertedBoard;
     }
 }

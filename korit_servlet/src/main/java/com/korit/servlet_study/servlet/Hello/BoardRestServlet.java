@@ -2,6 +2,7 @@ package com.korit.servlet_study.servlet.Hello;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.korit.servlet_study.dto.InsertBoardDto;
+import com.korit.servlet_study.dto.ResponseDto;
 import com.korit.servlet_study.service.BoardService;
 
 import javax.servlet.ServletException;
@@ -47,6 +48,11 @@ public class BoardRestServlet extends HttpServlet {
         //             -> VSCode 에서 axios.post(웹 주소)로 JSON 형식으로 보내주기 때문에 JSON임
         // 두번째 인자 -> InsertBoardDto.class 는 변환할 대상의 클래스 타입을 InsertBoardDto 으로 반환
 
-        boardService.insertBoard(insertBoardDto);
+        ResponseDto<?> responseDto = boardService.insertBoard(insertBoardDto);
+        String responseJson = mapper.writeValueAsString(responseDto);
+
+        resp.setStatus(responseDto.getStatus());
+        resp.setContentType("application/json");
+        resp.getWriter().write(responseJson);
     }
 }

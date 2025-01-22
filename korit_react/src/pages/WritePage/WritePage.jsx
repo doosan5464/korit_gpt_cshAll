@@ -60,8 +60,11 @@ function WritePage(props) {
         
         try { // 백엔드 서버에 데이터 주겠다, inputValue는 객체지만 axios는 post요청때 자동으로 JSON 변환을 해준다
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/board", inputValue); 
-        } catch (error) {
+            console.log(response);
+            alert("게시글 작성 완료");
             
+        } catch (error) {
+            console.error(error);
         }
     }
     

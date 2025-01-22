@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Route from './Route';
 
 function RouterDom({ children }) {
     const [ pathname, setPathname ] = useState(window.location.pathname);  

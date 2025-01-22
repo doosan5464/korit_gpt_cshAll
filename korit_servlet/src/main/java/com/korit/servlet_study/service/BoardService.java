@@ -2,6 +2,7 @@ package com.korit.servlet_study.service;
 
 import com.korit.servlet_study.dao.BoardDao;
 import com.korit.servlet_study.dto.InsertBoardDto;
+import com.korit.servlet_study.dto.ResponseDto;
 import com.korit.servlet_study.entity.Board;
 
 public class BoardService {
@@ -26,10 +27,15 @@ public class BoardService {
     }
 
 
-    public void insertBoard(InsertBoardDto dto) {
-        // InsertBoardDto에 Builder있음
+    // return이 타입이 달라서 <?> 와일드카드로 줌
+    public ResponseDto<?> insertBoard(InsertBoardDto dto) {
+        // InsertBoardDto에서 Book타입의 Entity로 변환
         Board board = dto.toBoard();
-        // db에 저장
-        boardDao.save(board);
+
+        Board insertBoard = boardDao.save(board);
+        if(insertBoard == null) {
+            return ResponseDto.fail("게시글 작성 실패!");
+        }
+        return ResponseDto.success(insertBoard);
     }
 }
