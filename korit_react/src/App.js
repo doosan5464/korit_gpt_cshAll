@@ -18,34 +18,54 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { authUserIdAtomState } from "./atoms/authAtom";
+import { useQuery } from "react-query";
 // Global을 뒤덮을 새로운 css. 여기 스타일이 전체 어플링케이션에 정의됨
 
 
 function App() {
-  const [ userId, setUserId ] = useRecoilState(authUserIdAtomState); // 전역 상태. 어디든 가져다 쓸 수 있음
+  const [ userId, setUserId ] = useRecoilState(authUserIdAtomState); // atom 전역 상태. 다른데서 이걸 똑같이 만들어도 공유가 된다
   const location = useLocation();
 
-  const authenticatedUser = async (accessToken) => {
-    try {
-      const response = await axios.get("http://localhost:8080/servlet_study_war/api/authenticated", {
-        headers : {
-          "Authorization": `Bearer ${accessToken}`, // 띄워쓰기 형식을 맞춰야 함 
-        }
-      });
-      setUserId(response.data.body)
 
-    } catch (error) {
-      console.error(error);
-      setUserId(0);
-    }
+  // 함수가 async로 선언되어 있고, 내부에서 await 키워드를 사용하여 비동기 요청이 완료될 때까지 기다림
+  // 응답이 성공적으로 반환되면 결과를 Promise 형태로 반환
+  const authenticatedUser = async () => {
+    return await axios.get("http://localhost:8080/servlet_study_war/api/authenticated", {
+      headers: { // 요청할 때 헤더에 Authorization 토큰을 포함하여 인증 정보를 전달
+        "Authorization": `Bearer ${localStorage.getItem("AccessToken")}`,
+      }
+    });
   }
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("AccessToken");
-    if(!!accessToken) {
-      authenticatedUser(accessToken); // 있으면 검사
-    } // 없으면 걍 안해
-  }, [location.pathname]); // 주소창 바뀔때 마다
+
+  // useQuery(1,2,3):
+  // 1: 키 배열 (Query의 식별자로 사용됨)
+  // 2: Query를 통해 호출할 함수 (비동기 데이터 fetch 함수)
+  // 3: 옵션 객체 (성공, 실패 핸들러와 조건부 실행 등 설정 가능)
+  // useQuery는 렌더링 후 비동기 데이터를 가져오기 위해 호출된다.
+  const authenticatedUserQuery = useQuery(
+    ["authenticatedUserQuery"], 
+    authenticatedUser,
+    {
+      onSuccess: (response) => { // resolve
+        console.log(response);
+        setUserId(response.data.body); // 데이터 fetch 성공 시 상태를 업데이트
+      }, 
+      // response : axios.get() 요청의 결과로 반환된 응답 객체
+      // response.data : 서버에서 반환된 JSON 데이터가 저장된 프로퍼티
+      // response.data.body : 응답 데이터 중 body라는 키에 접근
+
+      onError: (error) => { // reject
+        console.log(error);
+        setUserId(0); // 에러 발생 시 기본값으로 상태 초기화
+      },     
+      enabled: !!localStorage.getItem("AccessToken"),
+      // 조건부 실행: AccessToken이 있을 때만 Query 실행
+    }
+  );
+
+
+
   
   return (
     <>

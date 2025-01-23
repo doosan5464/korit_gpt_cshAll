@@ -13,7 +13,6 @@ import { authUserIdAtomState } from '../../atoms/authAtom';
 // Link to={"/~~"} : 원하는 경로로
 function MainHeader(props) {
     const [ userId, setUserId ] = useRecoilState(authUserIdAtomState); // authAtom 파일을 만들어놓고 전역적으로 접근
-    const [ loadStatus, setLoadStatus ] = useState("idle"); // loading, success
 
     const getUserApi = async (userId) => {
         try {
