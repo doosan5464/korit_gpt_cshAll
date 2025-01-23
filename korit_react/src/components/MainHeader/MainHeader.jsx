@@ -6,17 +6,22 @@ import { LuLayoutList, LuLogIn, LuLogOut, LuUser, LuNotebookPen, LuUserRoundPlus
 import { Link } from 'react-router-dom'; // Link는 곧 a 태그로 바꿔 사용하기 때문에 & a 스타일링이 적용된다
 import { useRecoilState } from 'recoil';
 import { authUserIdAtomState } from '../../atoms/authAtom';
+import { useQuery, useQueryClient } from 'react-query';
 
 
 // a 태그는 전체적으로 재렌더링이 일어나버림
 // Link는 부분적으로만 재렌더링이 일어남. 구분하여 사용
 // Link to={"/~~"} : 원하는 경로로
 function MainHeader(props) {
-    const [ userId, setUserId ] = useRecoilState(authUserIdAtomState); // authAtom 파일을 만들어놓고 전역적으로 접근
+    const queryClient = useQueryClient(); //  authenticatedUserQuery : App.js의 useQuery의 키 
+    const userId = queryClient.getQueryData(["authenticatedUserQuery"])?.data.body; // ?. : 옵셔널 체이닝(optional chaining) 연산자 -> 객체가 null이나 undefined인 경우 에러를 던지지 않고, 대신 undefined를 반환
+    console.log(userId);
+    console.log(queryClient.isFetching({
+        queryKey: ["authenticatedUserQuery"]
+    }))
 
-    const getUserApi = async (userId) => {
-        try {
-            const response = await axios.get("http://localhost:8080/servlet_study_war/api/user", {
+    const getUserApi = async () => {
+        return await axios.get("http://localhost:8080/servlet_study_war/api/user", {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("AccessToken"), // 서버에 요청할때 AccessToken있는사람만 
                 },
@@ -24,17 +29,16 @@ function MainHeader(props) {
                     "userId": userId,
                 }
             });
-            console.log(response);
-        } catch (error) {
-            
-        }
     }
 
-    useEffect(() => {
-        if(!!userId) {
-            getUserApi(userId);
+    const getUserQuery = useQuery(
+        ["getUserQuery", userId], // userId는 의존성 : 바뀌면 다시 요청
+        getUserApi,
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!userId, // 조건부 실행: userId가 있을 때만 Query 실행
         }
-    }, [userId]); // 로그인이 됐거나 로그아웃이 됐거나
+    );
 
     return (
         <div css={s.layout}>
@@ -56,9 +60,10 @@ function MainHeader(props) {
             <div css={s.rightContainer}>
                 {
                     !!userId ?
+                    // getUserQuery -> getUserApi -> isLoading? 
                     <ul>
                         <Link to={"/mypage"} >
-                            <li><LuUser />사용자이름</li>
+                            <li><LuUser />{getUserQuery.isLoading ? "" : getUserQuery.data.data.username}</li>
                         </Link>
                         <Link to={"/logout"} >
                             <li><LuLogOut />로그아웃</li>
