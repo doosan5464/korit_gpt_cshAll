@@ -8,7 +8,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 function SigninPage(props) {
     const navigate = useNavigate();
 
-    // Hook함수. useSearchParams()
+    // Hook함수. useSearchParams() URL 쿼리 파라미터를 관리
     const [ searchParams ] = useSearchParams(); 
 
     // 요소에 직접 접근하기 위해 useRef사용, setter는 필요없으니까 지움(비구조 할당?)
@@ -16,6 +16,7 @@ function SigninPage(props) {
     const [ inputRefs ] = useState([ useRef(), useRef(), ]);
     const [ buttonRefs ] = useState([ useRef() ]); 
 
+    // 입력 값 상태 관리
     const [ inputValue, setInputValue ] = useState({
         username: "",
         password: "",
@@ -29,6 +30,7 @@ function SigninPage(props) {
         });
     }, [searchParams.get("username")]);
 
+    // 입력 필드 변경 시 상태 업데이트
     const handleInputOnChange = (e) => {
         setInputValue({
             ...inputValue,
@@ -36,24 +38,29 @@ function SigninPage(props) {
         });
     }
 
+    // 키보드 이벤트 핸들러 (Enter 키로 입력 필드 포커스 이동)
     const handleInputOnKeyDown = (e) => {
         // enter
         if(e.keyCode === 13) {
             let foundIndex = -1; // 인덱스랑 안겹칠려고
+            // 현재 포커스된 입력 필드의 인덱스 찾기
             for(let i = 0; inputRefs.length; i++) {
                 if(inputRefs[i].current === e.target) {
                     foundIndex = i;
                     break;
                 }
             }
-            // 마지막 인덱스
+            // 마지막 인덱스, 로그인 버튼 클릭
             if(foundIndex ===  inputRefs.length - 1) {
                 buttonRefs[0].current.click();
                 return;
             }
+            // 다음 입력 필드로 포커스 이동
             inputRefs[foundIndex + 1].current.focus();
         }
     }
+
+    // 로그인 버튼 클릭 시 서버에 요청
     const handleSigninSubmitOnClick = async () => {
         try {
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/signin", inputValue);

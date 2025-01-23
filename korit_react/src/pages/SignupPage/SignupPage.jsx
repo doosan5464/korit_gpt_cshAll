@@ -13,6 +13,7 @@ function SignupPage(props) {
     const [ inputRefs ] = useState([ useRef(), useRef(), useRef(), useRef() ]);
     const [ buttonRefs ] = useState([ useRef() ]); 
 
+     // 입력 값 상태 관리
     const [ inputValue, setInputValue ] = useState({
         username: "",
         password: "",
@@ -20,6 +21,7 @@ function SignupPage(props) {
         email: "",
     });
 
+    // 입력 필드 값 변경 시 호출
     const handleInputOnChange = (e) => {
         setInputValue({
             ...inputValue,
@@ -27,6 +29,7 @@ function SignupPage(props) {
         });
     }
 
+    // Enter 키 이벤트 처리
     const handleInputOnKeyDown = (e) => {
         // enter
         if(e.keyCode === 13) {

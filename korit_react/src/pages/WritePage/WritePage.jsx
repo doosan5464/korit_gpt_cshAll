@@ -1,34 +1,30 @@
-/**@jsxImportSource @emotion/react */
+/** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import * as s from './style';
 import React, { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill'; // 외부 라이브러리. 게시판 검색 관련 기능을 제공해줌. 사이트에 어떻게 설정하는지 올라와있음
-
+import ReactQuill from 'react-quill'; // Rich text editor 라이브러리 (Quill) 사용
 
 function WritePage(props) {
-
+    // Quill 에디터의 툴바 옵션 정의
     const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote', 'code-block'],
-        ['link', 'image', 'video', 'formula'],
-        
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],
-        [{ 'indent': '-1'}, { 'indent': '+1' }], 
-        [{ 'direction': 'rtl' }],
-        
-        [{ 'size': ['small', false, 'large', 'huge'] }],
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        
-        [{ 'color': [] }, { 'background': [] }], 
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        
-        ['clean'] 
+        ['bold', 'italic', 'underline', 'strike'], // 텍스트 스타일
+        ['blockquote', 'code-block'], // 블록 스타일
+        ['link', 'image', 'video', 'formula'], // 미디어 삽입
+        [{ 'header': 1 }, { 'header': 2 }], // 헤더 크기
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }], // 목록
+        [{ 'script': 'sub'}, { 'script': 'super' }], // 위/아래 첨자
+        [{ 'indent': '-1'}, { 'indent': '+1' }], // 들여쓰기
+        [{ 'direction': 'rtl' }], // 텍스트 방향
+        [{ 'size': ['small', false, 'large', 'huge'] }], // 텍스트 크기
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // 헤더 수준
+        [{ 'color': [] }, { 'background': [] }], // 텍스트 및 배경 색상
+        [{ 'font': [] }], // 폰트 종류
+        [{ 'align': [] }], // 정렬
+        ['clean'] // 모든 포맷 제거
     ];
 
-    useEffect(() => { // 스타일시트를 동적으로 추가해 Quill 에디터의 기본 스타일링을 가져옴
+    useEffect(() => { 
+        // Quill 에디터의 스타일시트를 추가하여 기본 스타일 적용
         const head = document.querySelector("head");
         const link = document.createElement("link");
         link.rel = "stylesheet";
@@ -36,61 +32,74 @@ function WritePage(props) {
         head.appendChild(link);
     }, []);
 
-    const [ inputValue, setInputValue ] = useState({
-        title: "",
-        content: "",
+    // 입력값을 관리하는 상태
+    const [inputValue, setInputValue] = useState({
+        title: "", // 게시글 제목
+        content: "", // 게시글 내용
     });
 
+    // 제목 입력값 변경 핸들러
     const handleInputOnChange = (e) => {
         setInputValue({
             ...inputValue,
             [e.target.name]: e.target.value,
         });
-    }
+    };
 
-    // Quill은 e가 아니라 value를 바로 들고옴
+    // Quill 에디터의 내용 변경 핸들러 (value는 에디터 내용)
     const handleQuillOnChange = (value) => {
         setInputValue({
             ...inputValue,
             content: value,
-        })
-    }
+        });
+    };
 
+    // 작성 버튼 클릭 시 API 호출
     const handleWriteSubmitOnClick = async () => {
-        
-        try { // 백엔드 서버에 데이터 주겠다, inputValue는 객체지만 axios는 post요청때 자동으로 JSON 변환을 해준다
-            const response = await axios.post("http://localhost:8080/servlet_study_war/api/board", inputValue); 
-            console.log(response);
+        try { 
+            // 서버에 게시글 데이터를 전송 (axios가 객체를 자동으로 JSON 형식으로 변환)
+            const response = await axios.post(
+                "http://localhost:8080/servlet_study_war/api/board", 
+                inputValue
+            ); 
+            console.log(response); // 성공 응답 확인
             alert("게시글 작성 완료");
-            
         } catch (error) {
-            console.error(error);
+            console.error(error); // 에러 처리
         }
-    }
-    
+    };
 
     return (
         <div>
+            {/* 상단 작성 버튼 */}
             <div css={s.headerLayout}>
                 <button onClick={handleWriteSubmitOnClick}>작성하기</button>
             </div>
+            {/* 제목 입력 필드 */}
             <div css={s.titleLayout}>
-                <input type="text" placeholder='제목을 입력하세요.' name='title' value={inputValue.title} onChange={handleInputOnChange}/>
+                <input 
+                    type="text" 
+                    placeholder="제목을 입력하세요." 
+                    name="title" 
+                    value={inputValue.title} 
+                    onChange={handleInputOnChange} 
+                />
             </div>
+            {/* Quill 에디터 */}
             <ReactQuill 
                 modules={{
-                    toolbar: toolbarOptions,
+                    toolbar: toolbarOptions, // 사용자 정의 툴바 옵션
                 }}
                 style={{
                     boxSizing: "border-box",
                     width: "100%",
-                    height: "600px",
+                    height: "600px", // 에디터 높이 설정
                 }}
-                value={inputValue.content}
-                onChange={handleQuillOnChange}
+                value={inputValue.content} // 에디터의 내용 상태와 동기화
+                onChange={handleQuillOnChange} // 변경 이벤트 핸들러
             />
         </div>
-    ); // ReactQuill 컴포넌트
+    );
 }
 
 export default WritePage;
