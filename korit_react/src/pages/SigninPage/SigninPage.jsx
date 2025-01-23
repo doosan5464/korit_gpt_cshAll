@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
 import axios from 'axios';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 // 로그인은 doGet 일것같지만 doPost임. create속성이 있기 때문임
 function SigninPage(props) {
+    const navigate = useNavigate();
+
     // Hook함수. useSearchParams()
     const [ searchParams ] = useSearchParams(); 
 
@@ -23,7 +25,7 @@ function SigninPage(props) {
     useEffect(() => {
         setInputValue({
             ...inputValue,
-            username: searchParams.get("username"),
+            username: searchParams.get("username") || "", // false일 때 무항의 값을 줌
         });
     }, [searchParams.get("username")]);
 
@@ -55,7 +57,9 @@ function SigninPage(props) {
     const handleSigninSubmitOnClick = async () => {
         try {
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/signin", inputValue);
-            console.log(response);
+            localStorage.setItem("AccessToken", response.data.body); 
+            // localStorage에 키(AccessToken) 값(response.data.body) 형태로 응답 데이터를 넣는다
+            navigate("/"); // 성공하면 home으로
         } catch (error) {
             console.error(error);
         }

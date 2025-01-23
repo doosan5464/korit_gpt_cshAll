@@ -9,8 +9,8 @@ import com.korit.servlet_study.security.jwt.JwtProvider;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService {
-    private AuthDao authDao;
-    private JwtProvider jwtProvider;
+    private AuthDao authDao; // 회원가입, 로그인 관련 Dao
+    private JwtProvider jwtProvider; //
 
     private static AuthService instance;
 
@@ -27,7 +27,7 @@ public class AuthService {
     }
 
     public ResponseDto<?> signup(SignupDto signupDto) {
-        User insertedUser = authDao.signup(signupDto.toUser());
+        User insertedUser = authDao.signup(signupDto.toUser()); // Dao를 이용해
         if(insertedUser == null) {
             return ResponseDto.fail("사용자를 추가하지 못하였습니다.");
         }

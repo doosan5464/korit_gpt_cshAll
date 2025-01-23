@@ -16,8 +16,8 @@ public class CorsFilter implements Filter {
 
         // CORS 정책을 허용하기 위해 응답 헤더 설정
         res.setHeader("Access-Control-Allow-Origin", "*");  // 모든 도메인에서의 요청 허용
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");  // 허용하는 HTTP 메서드
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type");  // 허용하는 요청 헤더
+        res.setHeader("Access-Control-Allow-Methods", "*");  // 허용하는 HTTP 메서드
+        res.setHeader("Access-Control-Allow-Headers", "*");  // 허용하는 요청 헤더
         res.setHeader("Access-Control-Allow-Credentials", "true");  // 인증 정보 허용
 
         chain.doFilter(request, response);

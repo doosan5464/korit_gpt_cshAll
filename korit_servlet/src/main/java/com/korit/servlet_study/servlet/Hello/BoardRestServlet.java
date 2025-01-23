@@ -49,10 +49,18 @@ public class BoardRestServlet extends HttpServlet {
         // 두번째 인자 -> InsertBoardDto.class 는 변환할 대상의 클래스 타입을 InsertBoardDto 으로 반환
 
         ResponseDto<?> responseDto = boardService.insertBoard(insertBoardDto);
+        // BoardService의 insertBoard를 호출하여 안에 Dao의 save도 호출하게 되어 게시글을 삽입하고 그 결과를 ResponseDto의 성공, 실패로 받음
+
         String responseJson = mapper.writeValueAsString(responseDto);
+        // ResponseDto 객체를 JSON 형식의 문자열로 변환하여 클라이언트에게 전송하기 위한 준비를 함.
 
         resp.setStatus(responseDto.getStatus());
+        // ResponseDto의 상태 코드를 가져와 HTTP 응답 상태 코드로 설정함.
+
         resp.setContentType("application/json");
+        // 응답의 Content-Type을 JSON 형식으로 설정함.
+
         resp.getWriter().write(responseJson);
+        // 변환된 JSON 문자열을 HTTP 응답 본문에 작성하여 클라이언트에게 전송함.
     }
 }

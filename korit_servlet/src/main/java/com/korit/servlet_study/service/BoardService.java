@@ -29,10 +29,11 @@ public class BoardService {
 
     // return이 타입이 달라서 <?> 와일드카드로 줌
     public ResponseDto<?> insertBoard(InsertBoardDto dto) {
-        // InsertBoardDto에서 Book타입의 Entity로 변환
         Board board = dto.toBoard();
+        // InsertBoardDto에서 Book타입의 Entity로 변환
 
         Board insertBoard = boardDao.save(board);
+        // Dao를 통해 Entity 저장
         if(insertBoard == null) {
             return ResponseDto.fail("게시글 작성 실패!");
         }

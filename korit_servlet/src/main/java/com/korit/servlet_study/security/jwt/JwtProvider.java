@@ -1,6 +1,7 @@
 package com.korit.servlet_study.security.jwt;
 
 import com.korit.servlet_study.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -39,6 +40,26 @@ public class JwtProvider {
                 .compact(); // 이러면 토큰 생성
     }
 
-
+    public Claims parseToken(String token) {
+        Claims claims = null;
+        try {
+            claims = Jwts.parserBuilder() // Jwts에서 parser(er) 변환을 해주는 Builder로 만듦
+                    .setSigningKey(key) // 서명을 할 수 있게끔
+                    .build() // parser를 만듦
+                    .parseClaimsJws(removeBearer(token)) // token에서 claims들을 가져옴
+                    .getBody(); // claim객체로 만들어줌
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return claims;
+    }
+    private String removeBearer(String bearerToken) { // token앞에 bearer를 떼야 함
+        String accessToken = null;
+        final String BEARER_KEYWORD = "Bearer "; // 공백까지 길이 7임
+        if (bearerToken.startsWith(BEARER_KEYWORD)) { // Bearer로 시작하면~ 문자열 자르기
+            accessToken = bearerToken.substring(BEARER_KEYWORD.length()); // 7번 인덱스부터 ~
+        }
+        return accessToken;
+    }
 
 }
