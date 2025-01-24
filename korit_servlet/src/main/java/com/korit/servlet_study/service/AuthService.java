@@ -42,6 +42,6 @@ public class AuthService {
         if(!BCrypt.checkpw(signinDto.getPassword(), foundUser.getPassword())) {
             return ResponseDto.fail("사용자 정보를 다시 확인하세요.");
         }
-        return ResponseDto.success(jwtProvider.generateToken(foundUser));
+        return ResponseDto.success(jwtProvider.generateToken(foundUser)); // 일치한다면 토큰 생성
     }
 }

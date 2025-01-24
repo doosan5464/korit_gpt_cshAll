@@ -3,13 +3,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as s from './style';
 import axios from 'axios';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { accessTokenAtomState } from '../../atoms/authAtom';
+
+
+
 
 // 로그인은 doGet 일것같지만 doPost임. create속성이 있기 때문임
 function SigninPage(props) {
     const navigate = useNavigate();
 
-    // Hook함수. useSearchParams() URL 쿼리 파라미터를 관리
+    // Hook함수. 
+    // useSearchParams() : URL 쿼리 파라미터를 관리
     const [ searchParams ] = useSearchParams(); 
+
+    // Recoil상태. 전역적으로 공유중
+    const [ accessToken, setAccessToken ] = useRecoilState(accessTokenAtomState);
 
     // 요소에 직접 접근하기 위해 useRef사용, setter는 필요없으니까 지움(비구조 할당?)
     // 이렇게하면 변수를 따로 안만들고 배열의 인덱스로 관리 가능
@@ -66,6 +75,8 @@ function SigninPage(props) {
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/signin", inputValue);
             localStorage.setItem("AccessToken", response.data.body); 
             // localStorage에 키(AccessToken) 값(response.data.body) 형태로 응답 데이터를 넣는다
+            // 당연히 여기는 로그인이니까 AccessToken을 여기서 set 해줘야 한다
+            setAccessToken(localStorage.getItem("AccessToken")); // ??
             navigate("/"); // 성공하면 home으로
         } catch (error) {
             console.error(error);

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 
-@WebFilter("*") // 자바 서블릿 필터를 특정 URL 패턴에 매핑, web.xml 설정 파일에 따로 필터를 등록하지 않아도 자동으로 필터가 적용
 public class EncodingFilter implements Filter {
     @Override
     // 클라이언트의 요청이나 응답이 필터를 통과할 때마다 호출

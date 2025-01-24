@@ -16,18 +16,18 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // RecoilRoot안에 있는 authAtom을 통해 Recoil 상태를 전역으로 쓸 수 있음
 
 
-const queryClient = new QueryClient(); 
-// queryClient: React Query에서 서버 상태를 관리하는 전역 상태 저장소
-// 컴포넌트 트리 전체에서 데이터를 캐싱하고, 중복 요청을 방지
-
-
 // BrowserRouter : URL 변경 감지와 라우트 매칭을 처리하며, App 컴포넌트에 라우팅 기능 제공
 // RecoilRoot : Recoil의 전역 상태 관리 제공 (authAtom을 통해 상태를 선언 및 공유)
 // QueryClientProvider : client={queryClient}로 React Query의 QueryClient를 하위 컴포넌트에 전달
 
+
+const queryClient = new QueryClient(); 
+// queryClient: React Query에서 서버 상태를 관리하는 전역 상태 저장소
+// 컴포넌트 트리 전체에서 데이터를 캐싱하고, 중복 요청을 방지
+
 root.render(
     <RecoilRoot> 
-        <QueryClientProvider client={queryClient}> 
+        <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <App />
             </BrowserRouter>

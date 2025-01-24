@@ -1,40 +1,27 @@
 /**@jsxImportSource @emotion/react */
 import axios from 'axios';
 import * as s from './style';
-import React, { useEffect, useState } from 'react';
 import { LuLayoutList, LuLogIn, LuLogOut, LuUser, LuNotebookPen, LuUserRoundPlus } from 'react-icons/lu'; // react icons 에서 들고옴
-import { Link } from 'react-router-dom'; // Link는 곧 a 태그로 바꿔 사용하기 때문에 & a 스타일링이 적용된다
-import { useRecoilState } from 'recoil';
-import { authUserIdAtomState } from '../../atoms/authAtom';
+import { Link, useNavigate } from 'react-router-dom'; // Link는 곧 a 태그로 바꿔 사용하기 때문에 & a 스타일링이 적용된다
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { accessTokenAtomState, authUserIdAtomState } from '../../atoms/authAtom';
 import { useQuery, useQueryClient } from 'react-query';
 
 
 
 
 
-// a 태그는 전체적으로 재렌더링이 일어나버림
-// Link는 부분적으로만 재렌더링이 일어남. 구분하여 사용
-// Link to={"/~~"} : 원하는 경로로
+
 function MainHeader(props) {
+    const navigate = useNavigate();
     const queryClient = useQueryClient(); // index.js 의 리액트쿼리와 공유하는 전역 상태 저장소
     
     // 현재 로그인한 사용자 ID 가져오기, authenticatedUserQuery : App.js의 useQuery의 키 
     const userId = queryClient.getQueryData(["authenticatedUserQuery"])?.data.body; 
     // ?. : 옵셔널 체이닝(optional chaining) 연산자 -> 객체가 null이나 undefined인 경우 에러를 던지지 않고, 대신 undefined를 반환 (에러 방지)
-    console.log(userId);
-    console.log(queryClient.isFetching({
-        queryKey: ["authenticatedUserQuery"]
-    }))
 
-    // 사용자 정보 가져오기 쿼리
-    const getUserQuery = useQuery(
-        ["getUserQuery", userId], // userId는 의존성 : userId가 변경될 때마다 쿼리가 다시 실행
-        getUserApi,
-        {
-            refetchOnWindowFocus: false,
-            enabled: !!userId, // 조건부 실행: userId가 있을 때만 Query 실행
-        }
-    );
+    const setAccessToken = useSetRecoilState(accessTokenAtomState); // ???
+
 
     // API로 사용자 정보 가져오기 (Query 함수)
     const getUserApi = async () => {
@@ -47,6 +34,28 @@ function MainHeader(props) {
                 }
             });
     }
+
+
+    // 사용자 정보 가져오기 쿼리
+    const getUserQuery = useQuery(
+        ["getUserQuery", userId], // userId는 의존성 : userId가 변경될 때마다 쿼리가 다시 실행
+        getUserApi,
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!userId, // 조건부 실행: userId가 있을 때만 Query 실행
+        }
+    );
+
+    // 로그아웃 버튼
+    const handleLogoutOnClick = () => {
+        localStorage.removeItem("AccessToken"); // 토큰을 삭제해야 로그아웃에 맞게 메인헤더의 상태가 바뀜
+        setAccessToken(localStorage.getItem("AccessToken")); // 로컬스토리지는 상태가 아니기때문에 재렌더링이 안일어나서 상태를 만들어서 렌더링을 유도한 것임
+        queryClient.removeQueries(["authenticatedUserQuery"]); // queryClient.removeQueries() : 캐시의 쿼리 자체를 없애버림
+        // queryClient.invalidateQueries(["authenticatedUserQuery"]); // 원래는 이게 되야 하는데 안된다
+        navigate("/signin");
+    }
+
+
     /*
     비동기 요청 지연
     
@@ -61,6 +70,10 @@ function MainHeader(props) {
     getUserQuery.isLoading를 활용해, 사용자 데이터가 로딩 중일 때 오른쪽 메뉴의 버튼을 빈 상태로 표시
     */
 
+
+    // a 태그는 전체적으로 재렌더링이 일어나버림
+    // Link는 부분적으로만 재렌더링이 일어남. 구분하여 사용
+    // Link to={"/~~"} : 원하는 경로로
     return (
         <div css={s.layout}>
             <div css={s.leftContainer}>
@@ -84,11 +97,11 @@ function MainHeader(props) {
                     // getUserQuery -> getUserApi -> isLoading? 
                     <ul>
                         <Link to={"/mypage"} >
-                            <li><LuUser />{getUserQuery.isLoading ? "" : getUserQuery.data.data.username}</li>
+                            <li><LuUser />{getUserQuery.isLoading ? "" : getUserQuery.data.data.body.username}</li>
                         </Link>
-                        <Link to={"/logout"} >
+                        <a onClick={handleLogoutOnClick} >
                             <li><LuLogOut />로그아웃</li>
-                        </Link>
+                        </a>
                     </ul>
                     :
                     <ul>

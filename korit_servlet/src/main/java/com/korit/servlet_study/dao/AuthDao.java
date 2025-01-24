@@ -24,6 +24,7 @@ public class AuthDao {
         return instance;
     }
 
+
     public User findUserByUsername(String username) {
         User foundUser = null;
         Connection con = null;

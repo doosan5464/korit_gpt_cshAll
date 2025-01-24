@@ -1,7 +1,10 @@
 package com.korit.servlet_study.servlet.Hello;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.korit.servlet_study.dto.ResponseDto;
 import com.korit.servlet_study.entity.User;
+import com.korit.servlet_study.security.annotation.JwtValid;
+import com.korit.servlet_study.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,29 +15,24 @@ import java.io.IOException;
 
 @WebServlet("/api/user")
 public class UserRestServlet extends HttpServlet {
+    private UserService userService;
+
+    public UserRestServlet() {
+        userService = UserService.getInstance();
+    }
 
     @Override
+    @JwtValid
     // 사용자가 브라우저에서 URL을 통해 데이터를 요청할 때 호출 (조회)
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String userIdParam = req.getParameter("userId");
+        int userId = Integer.parseInt(userIdParam);
+        ResponseDto<?> responseDto = userService.getUser(userId);
+
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = User.builder()
-                .username("test")
-                .password("1234")
-                .name("테스트")
-                .email("test@gmail.com")
-                .build();
-
-        String jsonUser = objectMapper.writeValueAsString(user);
-        // user 객체를 JSON 문자열로 변환
-
+        String jsonUser = objectMapper.writeValueAsString(responseDto); // responseDto 객체를 JSON 문자열로 변환
         System.out.println(jsonUser);
         // {"userId":0,"username":"test","password":"1234","name":"테스트","email":"test@gmail.com"}
-
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        resp.setHeader("Access-Control-Allow-Credentials", "true");
-        // 대충 react에 허가해주는 그런거
 
 
         resp.setContentType("application/json");

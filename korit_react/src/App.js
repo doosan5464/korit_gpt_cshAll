@@ -14,10 +14,9 @@ import { Global } from "@emotion/react";
 // Global : 전역 스타일을 설정하는데 사용하는 컴포넌트 - 애플리케이션 전체 css
 
 import { global } from "./styles/global";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { authUserIdAtomState } from "./atoms/authAtom";
+import { accessTokenAtomState } from "./atoms/authAtom";
 import { useQuery } from "react-query";
 // Global을 뒤덮을 새로운 css. 여기 스타일이 전체 어플링케이션에 정의됨
 
@@ -26,41 +25,53 @@ import { useQuery } from "react-query";
 
 
 function App() {
-  const location = useLocation();
 
-  // useQuery(1,2,3):
-  // 1: Query 키 (Query의 식별자로 사용됨)
-  // 2: Query를 통해 호출할 함수 (비동기 데이터 fetch 함수) - 지금 하는건 return이 axios로 연결됨
-  // 3: 옵션 객체 (성공, 실패 핸들러와 조건부 실행 등 설정 가능)
-  // useQuery는 렌더링 후 비동기 데이터를 가져오기 위해 호출된다.
-  const authenticatedUserQuery = useQuery(
-    ["authenticatedUserQuery"], 
-    authenticatedUser,
-    {    
-      refetchOnWindowFocus: false,
-      // 윈도우가 포커스를 받을 때 데이터를 다시 요청하지 않음
-      enabled: !!localStorage.getItem("AccessToken"),
-      // 조건부 실행: AccessToken이 있을 때만 Query 실행
-    }
-  );
+  // useRecoilState()
+  // : atom(authAtom.js)을 기반으로 상태를 읽고 수정할 수 있게 해주고, 상태를 애플리케이션 전체에서 공유할 수 있음
+  // accessTokenAtomState는 atom의 키.
+  // 
+  const [ accessToken, setAccessToken ] = useRecoilState(accessTokenAtomState);
   
+
   // 함수가 async로 선언되어 있고, 내부에서 await 키워드를 사용하여 비동기 요청이 완료될 때까지 기다림
   // 응답이 성공적으로 반환되면 Promise를 반환
   const authenticatedUser = async () => {
     return await axios.get("http://localhost:8080/servlet_study_war/api/authenticated", { // 지정된 URL로 GET 요청을 보냄
+      // 여기서 await 뒤에 axios는 서버 호출이 성공하면 resolve, 실패하면 reject를 반환한다
       headers: { // 요청할 때 헤더에 Authorization 토큰을 포함하여 인증 정보를 전달
         "Authorization": `Bearer ${localStorage.getItem("AccessToken")}`,
       } // Bearer 형식으로 토큰 저장 후 전달
     });
   }
-  
-  
+  // -> 지금 이 함수가 밑에 useQuery보다 위에 위치해야 함
+
+
+  // useQuery(1,2,3):
+  // 1: Query 키 (Query의 식별자로 사용됨)
+  // 2: Query를 통해 호출할 함수 (비동기 데이터 fetch 함수) - 지금 하는건 return이 axios로 연결됨
+  // 3: 옵션 객체 (성공, 실패 핸들러와 조건부 실행 등 설정 가능)
+  // useQuery : 처음 컴포넌트가 렌더링될 때 무조건 실행
+  // useQuery : 렌더링 후 비동기 데이터를 가져오기 위해 호출된다.
+  const authenticatedUserQuery = useQuery( // authenticatedUserQuery를 useQuery에 저장한 상태임.
+    ["authenticatedUserQuery"], 
+    authenticatedUser,
+    {    
+      retry: 0, // 재요청을 안한다???
+      refetchOnWindowFocus: false, // 윈도우가 포커스를 받을 때 데이터를 다시 요청하지 않음
+      enabled: !!accessToken,
+    }
+  );
+
+  console.log(authenticatedUserQuery.isLoading);
+  console.log("authenticatedUserQuery.isLoading 바로 밑");
+
   return (
     <>
       <Global styles={global} /> 
 
       {
         authenticatedUserQuery.isLoading ? <></> // authenticatedUserQuery가 로딩중이면 빈 화면 아니면 화면
+                                                 // 로딩중이라는게 함수가 아직 실행중이다? (쿼리의 결과를 아직 받지 못한 상태)
         :
         <MainLayout>
           <Routes>

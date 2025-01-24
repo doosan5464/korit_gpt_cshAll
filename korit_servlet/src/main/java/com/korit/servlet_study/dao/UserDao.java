@@ -23,6 +23,48 @@ public class UserDao {
         return userDao;
     }
 
+    public User findByid(int id) {
+        User foundUser = null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBConnectionMgr.getInstance().getConnection();
+            String sql = """
+                    select
+                        user_id,
+                        username,
+                        password,
+                        name,
+                        email
+                    from
+                        user_tb
+                    where
+                        user_id=?
+                    """;
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                foundUser = User.builder()
+                        .userId(rs.getInt("user_id"))
+                        .username(rs.getString("username"))
+                        .password(rs.getString("password"))
+                        .name(rs.getString("name"))
+                        .email(rs.getString("email"))
+                        .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBConnectionMgr.getInstance().freeConnection(con, ps, rs);
+        }
+
+        return foundUser;
+    }
+
+
     // 문제
     public List<User> findAllBySearchValue(String searchValue) {
         List<User> users = new ArrayList<>();
