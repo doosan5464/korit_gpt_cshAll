@@ -30,7 +30,7 @@ public class BoardDao {
 
 
     public Board save(Board board) {
-        Board insertedBoard = null; // ??
+        Board insertedBoard = null; // 최종적으로 반환할 Board타입의 입력데이터?
         Connection con = null; // db 연결 관리
         PreparedStatement ps = null; // 쿼리 실행 결과 저장할 곳 // 빈 쿼리창
         ResultSet rs = null; // 쿼리 실행 결과를 저장

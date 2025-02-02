@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // ReactDOM : React 애플리케이션을 실제로 DOM에 렌더링하는 역할을 하는 객체
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // createRoot() : 컴포넌트를 DOM에 마운트할 수 있게 하고, 이걸 통해 앱을 실제 HTML 페이지에 렌더링
 
@@ -24,6 +25,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient(); 
 // queryClient: React Query에서 서버 상태를 관리하는 전역 상태 저장소
 // 컴포넌트 트리 전체에서 데이터를 캐싱하고, 중복 요청을 방지
+
 
 root.render(
     <RecoilRoot> 

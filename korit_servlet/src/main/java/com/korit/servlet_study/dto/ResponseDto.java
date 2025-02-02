@@ -20,7 +20,7 @@ public class ResponseDto<T> {
     // data: 실제 응답에 포함될 데이터. 타입은 T로 유연하게 설정 가능. 각 메서드에서 반환하는 객체의 실제 데이터
 
 
-    // success, fail, forbidden : 정적인 메서드여서 기능을 한다
+    // success, fail, forbidden : 정적인 메서드. 내장함수 x
     public static <T> ResponseDto<T> success(T body) {
         return new ResponseDto<>(200, "success", body);
     }

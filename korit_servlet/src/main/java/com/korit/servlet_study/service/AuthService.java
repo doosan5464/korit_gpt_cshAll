@@ -39,6 +39,8 @@ public class AuthService {
         if(foundUser == null) {
             return ResponseDto.fail("사용자 정보를 다시 확인하세요.");
         }
+        // BCrypt : 비밀번호 암호화를 위한 라이브러리
+        // 암호화된 비밀번호는 직접 비교할 수 없기 때문에, BCrypt가 내부적으로 암호화 알고리즘을 사용해 두 값을 비교
         if(!BCrypt.checkpw(signinDto.getPassword(), foundUser.getPassword())) {
             return ResponseDto.fail("사용자 정보를 다시 확인하세요.");
         }

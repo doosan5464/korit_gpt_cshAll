@@ -3,13 +3,9 @@ import axios from 'axios';
 import * as s from './style';
 import { LuLayoutList, LuLogIn, LuLogOut, LuUser, LuNotebookPen, LuUserRoundPlus } from 'react-icons/lu'; // react icons 에서 들고옴
 import { Link, useNavigate } from 'react-router-dom'; // Link는 곧 a 태그로 바꿔 사용하기 때문에 & a 스타일링이 적용된다
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { accessTokenAtomState, authUserIdAtomState } from '../../atoms/authAtom';
+import { useSetRecoilState } from 'recoil';
+import { accessTokenAtomState } from '../../atoms/authAtom';
 import { useQuery, useQueryClient } from 'react-query';
-
-
-
-
 
 
 function MainHeader(props) {
@@ -20,7 +16,10 @@ function MainHeader(props) {
     const userId = queryClient.getQueryData(["authenticatedUserQuery"])?.data.body; 
     // ?. : 옵셔널 체이닝(optional chaining) 연산자 -> 객체가 null이나 undefined인 경우 에러를 던지지 않고, 대신 undefined를 반환 (에러 방지)
 
-    const setAccessToken = useSetRecoilState(accessTokenAtomState); // ???
+
+    // authAtom에 있는 accessTokenAtomState라는 Recoil로 AccessToken 관리
+    // useSetRecoilState() : Recoil의 setter
+    const setAccessToken = useSetRecoilState(accessTokenAtomState); 
 
 
     // API로 사용자 정보 가져오기 (Query 함수)
@@ -28,7 +27,7 @@ function MainHeader(props) {
         return await axios.get("http://localhost:8080/servlet_study_war/api/user", {
                 headers: { // 요청할 때 헤더에 Authorization 토큰을 포함하여 인증 정보를 전달
                     "Authorization": "Bearer " + localStorage.getItem("AccessToken"), // 서버에 요청할때 AccessToken있는사람만 
-                },
+                },                                                                    // "AccessToken" : 실제로 로컬스토리지에 저장된 키 이름 (Signin에서)
                 params: { // params 객체를 통해 userId를 쿼리 파라미터로 전달
                     "userId": userId,
                 }
@@ -45,7 +44,6 @@ function MainHeader(props) {
             enabled: !!userId, // 조건부 실행: userId가 있을 때만 Query 실행
         }
     );
-
     // 로그아웃 버튼
     const handleLogoutOnClick = () => {
         localStorage.removeItem("AccessToken"); // 토큰을 삭제해야 로그아웃에 맞게 메인헤더의 상태가 바뀜
@@ -57,8 +55,9 @@ function MainHeader(props) {
 
 
     /*
+
     비동기 요청 지연
-    
+
     userId는 비동기 요청을 통해 서버에서 받아오는 데이터
     페이지 새로고침 시, userId를 가져오기 전에 getUserQuery가 실행되면, 아직 userId가 없으므로 로그인 상태가 아닌 상태처럼 보임
     이후 userId가 비동기적으로 받아지면 getUserQuery가 다시 실행되고 올바른 상태로 업데이트
@@ -68,6 +67,7 @@ function MainHeader(props) {
     enabled: !!userId 옵션을 사용하여, userId가 있는 경우에만 사용자 정보를 가져오는 쿼리를 실행
 
     getUserQuery.isLoading를 활용해, 사용자 데이터가 로딩 중일 때 오른쪽 메뉴의 버튼을 빈 상태로 표시
+
     */
 
 
@@ -117,5 +117,4 @@ function MainHeader(props) {
         </div>
     )
 }
-
 export default MainHeader;

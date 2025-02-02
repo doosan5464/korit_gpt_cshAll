@@ -45,7 +45,7 @@ function SignupPage(props) {
                 buttonRefs[0].current.click();
                 return;
             }
-            inputRefs[foundIndex + 1].current.focus();
+            inputRefs[foundIndex + 1].current.focus(); // 엔터시 다음 인풋으로
         }
     }
     const handleSignupSubmitOnClick = async () => {

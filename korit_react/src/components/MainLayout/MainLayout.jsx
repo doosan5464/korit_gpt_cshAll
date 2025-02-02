@@ -14,9 +14,11 @@ function MainLayout({ children }) {
         // { children } 은 자식 요소를 부모 컴포넌트에 동적으로 전달할 때 사용
         // 이제 App.js에서 이 MainLayout을 쓰면
         /*
-        <MainLayout>
-            자식 요소들
-        </MainLayout>
+
+            <MainLayout>
+                자식 요소들
+            </MainLayout>
+            
         */
        // 저기 있는 자식 요소들이 { children } 로 와서 렌더링한다
     );

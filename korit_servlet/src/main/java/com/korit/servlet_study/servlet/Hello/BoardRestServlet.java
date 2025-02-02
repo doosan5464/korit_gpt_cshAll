@@ -40,6 +40,7 @@ public class BoardRestServlet extends HttpServlet {
                 sb.append(Line);
             }
         }
+
         ObjectMapper mapper = new ObjectMapper();
         // JSON 데이터를 Java 객체로 변환하거나 그 반대로 변환할 때 사용 (Jackson 라이브러리 설치한거)
         InsertBoardDto insertBoardDto = mapper.readValue(sb.toString(), InsertBoardDto.class);

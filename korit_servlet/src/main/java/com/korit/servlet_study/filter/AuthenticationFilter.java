@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 
+// AuthenticationFilter는 javax.servlet.Filter 인터페이스를 구현하므로, 서블릿 컨테이너(예: Tomcat)가 필터로 인식하고, 모든 요청을 통과
 public class AuthenticationFilter implements Filter {
     private JwtProvider jwtProvider;
     private UserDao userDao;
@@ -34,23 +35,23 @@ public class AuthenticationFilter implements Filter {
         // 그래서 다운캐스팅을 해야 각각의 클래스를 사용할 수 있게 된다 (servlet 이 부모고 http가 자식)
 
         try {
-            if(isJwtTokenValid(request)) { // 인증이 필요한 놈인가??? 라는 의미???
-                String bearerToken = request.getHeader("Authorization");
+            if(isJwtTokenValid(request)) { // 해당 요청이 JWT 인증이 필요한 요청인지 확인
+                String bearerToken = request.getHeader("Authorization"); // Authorization 헤더에서 토큰 가져오기
                 if(bearerToken == null) {
-                    setUnAuthenticatedResponse(response); //
+                    setUnAuthenticatedResponse(response); // 토큰이 없으면 인증 실패 응답 반환
                     return;
                 }
 
-                Claims claims = jwtProvider.parseToken(bearerToken);
+                Claims claims = jwtProvider.parseToken(bearerToken); // JWT 파싱하여 Claims(정보) 가져오기
                 if(claims == null) {
-                    setUnAuthenticatedResponse(response);
+                    setUnAuthenticatedResponse(response); // 토큰이 유효하지 않으면 인증 실패 응답 반환
                     return;
                 }
 
-                int userId = Integer.parseInt(claims.get("userId").toString());
-                User foundUser = userDao.findByid(userId);
+                int userId = Integer.parseInt(claims.get("userId").toString()); // 토큰에서 userId 추출
+                User foundUser = userDao.findByid(userId); // DB에서 userId로 사용자 조회
                 if(foundUser == null) {
-                    setUnAuthenticatedResponse(response);
+                    setUnAuthenticatedResponse(response); // 유저 정보가 없으면 인증 실패 응답 반환
                     return;
                 }
             }
@@ -65,12 +66,13 @@ public class AuthenticationFilter implements Filter {
         String method = request.getMethod(); // doGet인지 doPost인지... 등등
 
         String servletPath = request.getHttpServletMapping().getServletName();
-        // 요청이 매핑된 서블릿의 이름(클래스, 경로를 다 포함한)을 반환 (어느 서블렛에 요청을 했는가)
+        // 요청을 처리하는 서블릿 클래스의 이름(패키지 포함)을 가져옴.
 
         Class<?> servletClass = Class.forName(servletPath); // Class<?> : 클래스클래스 구조.
                                                             // Class.forName(servletPath) : 이 서블릿 명의 클래스가 만들어 짐
-        Method foundMethod = getMappedMethod(servletClass, method); // ???
+        Method foundMethod = getMappedMethod(servletClass, method); // 해당 HTTP 메서드에 매핑된 메서드 찾기
         return foundMethod != null; // foundMethod 객체가 null이 아니면 true, 그렇지 않으면 false를 반환
+                                    // @JwtValid가 붙은 메서드가 있으면 true, 없으면 false
     }
 
     private Method getMappedMethod(Class<?> clazz, String methodName) { // 서블렛클래스 clazz, 메서드 methodName
@@ -78,18 +80,18 @@ public class AuthenticationFilter implements Filter {
             if (method.getName().toLowerCase().endsWith(methodName.toLowerCase()) && method.isAnnotationPresent(JwtValid.class)) {
                 // method 객체의 메서드 이름이 methodName으로 끝나는지 확인 (메서드랑 ~~를 소문자로)
                 // 현재 메서드가 @JwtValid라는 어노테이션을 가지고 있는지 확인
-                return method; // 인증이 필요한 메서드가 리턴된다???
+                return method; // 해당 메서드 반환 (JWT 인증이 필요한 메서드)
             }
         }
-        return null;
+        return null; // 인증이 필요 없는 경우 null 반환
     }
 
-    //
+    // JWT 인증 실패 시 응답 처리
     private void setUnAuthenticatedResponse(HttpServletResponse response) throws IOException {
             ObjectMapper objectMapper = new ObjectMapper();
             ResponseDto<String> responseDto = ResponseDto.forbidden("검증 할 수 없는 Access Token입니다.");
-            response.setStatus(responseDto.getStatus());
+            response.setStatus(responseDto.getStatus()); // 403 상태 코드 설정
             response.setContentType("application/json");
-            response.getWriter().println(objectMapper.writeValueAsString(responseDto));
+            response.getWriter().println(objectMapper.writeValueAsString(responseDto)); // JSON 형식으로 응답 반환
     }
 }
