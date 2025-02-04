@@ -1,13 +1,9 @@
 package com.korit.springboot_study.controller;
 
-import com.korit.springboot_study.dto.request.study.ReqAddStudentDto;
 import com.korit.springboot_study.dto.request.study.ReqStudentDto;
-import com.korit.springboot_study.dto.response.study.RespAddStudentDto;
-import com.korit.springboot_study.dto.response.study.RespStudentDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@RestController // RestController는 view 리턴이 없음. 이 컨트롤러안에서 뭐 하고 뭐 다 한다면 사용??
+@RestController // RestController는 view 리턴이 없음. 이 컨트롤러안에서 뭐 하고 뭐 다 한다면 사용
 @Api(tags = "REST API 수업") // Controller의 이름을 바꿔줌. Swagger에서 보기 좋게
 public class FirstRestController {
 
@@ -41,11 +37,9 @@ public class FirstRestController {
     }
 
     @GetMapping("/api/student")
-    @ApiOperation(value = "학생 조회(일반 for문)", notes = "일반 for문을 사용하여 선형 탐색 학습") // 메서드 위의 어노테이션 설명문은 ApiOperation
+    @ApiOperation(value = "학생 조회(일반 for문)", notes = "일반 for문을 사용하여 선형 탐색 학습")
     public Map<String, Object> getStudent(
             @ApiParam(value = "조회할 학생 인덱스", required = true) // API의 파라미터에 대한 설명을 추가, required : 해당 파라미터가 필수인지 여부를 지정
-            // API (Application Programming Interface) : 애플리케이션(프로그램)끼리 소통할 수 있도록 정해진 규칙
-            // 이 어노테이션은 거의 있다고 봐야?
             @RequestParam int id
     ) { // @RequestParam 없어도 되지만 명시의 목적
         List<Map<String, Object>> students = new ArrayList<>();
@@ -120,50 +114,13 @@ public class FirstRestController {
     }
 
 
-
-
-
     @GetMapping("/api/getStudent4/{studentId}") // {studentId} : 경로 변수(Path Variable)
     // GET http://localhost:8080/api/getStudent4/1 -> 이러면 studentId = 1이 자동으로 매핑됨
-    public RespStudentDto getStudent4(
-            @ApiParam(value = "학생 ID", required = true) // @AniParam 은 required = true 가 기본임
-            @PathVariable int studentId, // 경로에 있는 변수 -> {studentId}
-            @ModelAttribute ReqStudentDto reqStudentDto // dto에 있는 변수들을 가져올 수 있음
+    public Map<String, Object> getStudent4(
+            @ApiParam(value = "학생 ID", required = true)
+            @PathVariable int studentId, // 경로에 있는 변수
+            ReqStudentDto reqStudentDto // dto에 있는 변수들을 가져올 수 있음
     ) {
-        return new RespStudentDto(100, "김준2", 33); // 위에 입력이고 나발이고 이게 설정되서 return??
+        return Map.of("id", studentId, reqStudentDto.getName(), reqStudentDto.getAge()); // lombok
     }
-
-
-    @PostMapping("/api/student") // Post -> Create
-    @ApiOperation(value = "학생 추가", notes = "학생 정보를 입력받아 user_tb에 데이터를 저장합니다") // 메서드위에는 Operation?
-    public ResponseEntity<RespAddStudentDto> addStudent( // ResponseEntity<> : 클라이언트한테 응답 데이터 + 상태 코드 + 헤더를 같이 보낼 수 있게 해주는 HTTP 응답 클래스
-            @RequestBody ReqAddStudentDto reqAddStudentDto // Post니까 body에서 Dto를 가져온다
-    ) {
-        System.out.println(reqAddStudentDto);
-        return ResponseEntity.badRequest().body(new RespAddStudentDto("학생 추가 실패", false));
-    }
-
-
-    @PutMapping("/api/student/{studentId}") // Put -> Update
-    @ApiOperation(value = "학생 정보 수정", notes = "학생 ID를 기준으로 학생 정보를 수정합니다.")
-    public ResponseEntity<?> updateStudent(
-            @ApiParam(value = "학생 ID", example = "1", required = true)
-            @PathVariable int studentId, // {studentId}를 변수로 받아야 하니까
-            @RequestBody Map<String, Object> reqBody // Put이니까 원래는 body에서 Dto를 가져오는데 이번에는 Dto대신에 Map으로
-    ) {
-        System.out.println(reqBody);
-        return ResponseEntity.ok().body(null);
-    }
-    // 지금은 true, false 따로 주고있지만 나중에는 ApiResponse? 로 둘이 따로 줄 것
-
-
-    @ApiOperation(value = "학생 정보 삭제", notes = "학생 ID를 기준으로 정보를 삭제합니다.")
-    @DeleteMapping("/api/student/{studentId}") // delete는 가능한 id로 지워라 pamameter 말고
-    public ResponseEntity<?> deleteStudent(
-            @PathVariable int studentId
-    ) {
-        return ResponseEntity.ok().body("지워짐 ㅋ");
-    }
-
-
 }
