@@ -1,0 +1,15 @@
+# yml :
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/study
+    username: root
+    password: 1q2w3e4r!
+
+# mybatis : Java 애플리케이션에서 SQL을 쉽게 사용할 수 있도록 도와주는 프레임워크
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml # mappers안에 있는 모든 .xml 파일을 mapper로 등록

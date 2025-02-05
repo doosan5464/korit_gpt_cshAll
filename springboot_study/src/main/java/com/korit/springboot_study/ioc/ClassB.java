@@ -24,6 +24,8 @@ public class ClassB {
 
     public void classCallB() {
         System.out.println("ClassB 메서드 호출");
+        c1.classCallC();
+        c2.classCallC();
     }
 }
 /*

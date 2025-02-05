@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.StudentStudyMapper"> <!--프로젝트 > mapper > StudentStudyMapper.java(@Mapper)-->
+    <!--mapper는 interface. 구현은 이제 여기에다 한다-->
+
+
+    <resultMap id="majorResultMap" type="com.korit.springboot_study.entity.study.Major"> <!--id는 새로 만든 변수명, type은 경로-->
+        <!--db와 intelliJ의 표기법을 통일시키기위해 아래와 같이 입력-->
+        <id property="majorId" column="major_id" /> <!--id는 PrimaryKey column은 db의 컬럼명-->
+        <result property="majorName" column="major_name" /> <!--property는 속성?-->
+    </resultMap>
+    <select id="selectMajorsAll" resultMap="majorResultMap"> <!--id는 StudentStudyMapper.java에서 사용할 메서드이름, 위에 만든 "majorResultMap"를 연결-->
+        select
+            major_id,
+            major_name
+        from
+            major_tb
+        where
+            major_id = 100
+    </select>
+    <insert id="insertMajor" keyProperty="majorId" useGeneratedKeys="true"> <!--insert에서는 type을 굳이 안정해줘도 된다, insert는 return이 무조건 int(성공횟수)-->
+    <!--useGeneratedKeys로 db에서 AutoIncrement된 PK를 keyProperty에 연결하고 Entity에 Setter해준다. 즉 major_id의 최신값을 가져와준다-->
+        insert into
+            major_tb
+        values
+            (default, #{majorName}) <!--#{majorName}가 되는 이유 : Major클래스에 @NoArgs~ 와 @Data를 mybatis가 알아서 잘 해서 이렇게 들고와준다?-->
+    </insert>
+
+
+    <resultMap id="instructorResultMap" type="com.korit.springboot_study.entity.study.Instructor">
+        <id property="instructorId" column="instructor_id" />
+        <result property="instructorName" column="instructor_name" />
+    </resultMap>
+    <select id="selectInstructorsAll" resultMap="instructorResultMap">
+        select
+            instructor_id,
+            instructor_name
+        from
+            instructor_tb
+    </select>
+    <insert id="insertInstructor">
+        insert into
+            instructor_tb
+        values
+            (default, #{instructorName})
+    </insert>
+
+</mapper>
