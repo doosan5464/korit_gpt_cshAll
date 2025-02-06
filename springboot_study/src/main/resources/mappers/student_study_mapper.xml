@@ -28,6 +28,15 @@
         values
             (default, #{majorName}) <!--#{majorName}가 되는 이유 : Major클래스에 @NoArgs~ 와 @Data를 mybatis가 알아서 잘 해서 이렇게 들고와준다?-->
     </insert>
+    <update id="updateMajorName">
+        update
+            major_tb
+        set
+            major_name = #{majorName}
+        where
+            major_id = #{majorId}
+    </update>
+
 
 
     <resultMap id="instructorResultMap" type="com.korit.springboot_study.entity.study.Instructor">

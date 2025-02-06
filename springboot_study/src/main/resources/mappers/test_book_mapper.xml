@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.TestBookMapper">
+
+<resultMap id="bookResultMap" type="com.korit.springboot_study.entity.Book">
+    <id property="bookId" column="book_id" />
+    <result property="bookName" column="book_name" />
+</resultMap>
+<select id="selectBooksAll" resultMap="bookResultMap">
+    select
+        book_id,
+        book_name
+    from
+        book_tb
+    where
+        book_id = #{bookId}
+        AND book_name = #{bookName}
+</select>
+
+
+</mapper>
