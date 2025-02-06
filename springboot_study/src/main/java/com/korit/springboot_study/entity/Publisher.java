@@ -1,4 +1,4 @@
 package com.korit.springboot_study.entity;
 
-public class Book {
+public class Publisher {
 }

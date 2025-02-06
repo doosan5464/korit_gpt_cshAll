@@ -23,4 +23,6 @@ public interface StudentStudyMapper {
     int insertInstructor(Instructor instructor);
 
     int updateMajorName(Major major);
+    // insert는 return이 무조건 int(성공횟수)
+    // update도 마찬가지
 }

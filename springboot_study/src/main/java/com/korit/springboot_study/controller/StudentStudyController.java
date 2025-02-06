@@ -31,7 +31,7 @@ public class StudentStudyController {
     @GetMapping("/api/study/majors")
     @ApiOperation(value = "학과 전체 조회")
     // ResponseEntity 클래스
-    // :  Spring에서 HTTP 응답을 다룰 때 사용하는 클래스
+    // : Spring에서 HTTP 응답을 다룰 때 사용하는 클래스
     // : 클라이언트에게 (HTTP 상태 코드 + 응답 데이터 + 헤더)를 같이 보낼 수 있음
     public ResponseEntity<SuccessResponseDto<List<Major>>> getMajors() throws NotFoundException {
         return ResponseEntity.ok().body(studentStudyService.getMajorsAll());

@@ -21,7 +21,7 @@
         where
             major_id = 100
     </select>
-    <insert id="insertMajor" keyProperty="majorId" useGeneratedKeys="true"> <!--insert에서는 type을 굳이 안정해줘도 된다, insert는 return이 무조건 int(성공횟수)-->
+    <insert id="insertMajor" keyProperty="majorId" useGeneratedKeys="true"> <!--insert에서는 type을 굳이 안정해줘도 된다-->
     <!--useGeneratedKeys로 db에서 AutoIncrement된 PK를 keyProperty에 연결하고 Entity에 Setter해준다. 즉 major_id의 최신값을 가져와준다-->
         insert into
             major_tb

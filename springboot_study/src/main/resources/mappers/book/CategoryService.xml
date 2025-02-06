@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.CategoryMapper">
+    <resultMap id="categoryResultMap" type="com.korit.springboot_study.entity.Category">
+        <id property="categoryId" column="category_id" />
+        <result property="categoryName" column="category_name" />
+    </resultMap>
+
+    <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true" >
+        insert into category_tb
+        values (default, #{categoryName})
+    </insert>
+
+    <select id="selectAllByNameContaining" resultMap="categoryResultMap">
+        select
+            category_id,
+            category_name
+        from
+            category_tb
+        where
+            category_name like concat("%", #{categoryName}, "%")
+    </select>
+
+</mapper>
