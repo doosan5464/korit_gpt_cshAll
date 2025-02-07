@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Author {
-    private int authorId;
-    private String authorName;
+@NoArgsConstructor
+public class Role {
+    private int roleId;
+    private String roleName;
 }

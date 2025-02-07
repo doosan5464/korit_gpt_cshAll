@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReqSearchCategoryDto {
-    @ApiModelProperty(value = "카테고리명", example = "교육", required = false)
+public class ReqSearchAuthorDto {
+    @ApiModelProperty(value = "저자명", example = "김준일", required = false)
     private String keyword = "";
 }

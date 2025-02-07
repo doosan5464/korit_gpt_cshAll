@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Author {
-    private int authorId;
-    private String authorName;
+@NoArgsConstructor
+// 중간 테이블
+public class UserRole {
+    private int userRoleId;
+    private int userId;
+    private int roleId;
 }

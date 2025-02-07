@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.korit.springboot_study.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+    </resultMap>
+
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true" >
+        insert into user_tb
+        values(default, #{username}, #{password}, #{name}, #{email})
+    </insert>
+
+    <select id="selectByUsername" resultMap="userResultMap">
+        select
+            user_id,
+            username,
+            password,
+            name,
+            email
+        from
+            user_tb
+        where
+            username = #{username}
+    </select>
+
+</mapper>

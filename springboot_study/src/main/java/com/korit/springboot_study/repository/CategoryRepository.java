@@ -20,15 +20,15 @@ public class CategoryRepository {
         try {
             categoryMapper.insert(category);
         }catch (DuplicateKeyException e){
-            throw new CustomDuplicateKeyException("이미 존재하는 카테고리명입니다.");
+            return Optional.empty(); // 여기 말고 Service에서 예외를 처리하기로 약속
         }
-        return Optional.of(category);
+        return Optional.ofNullable(category);
     }
 
     public Optional<List<Category>> findAllByNameContaining(String categoryName) {
         System.out.println(categoryName);
         return categoryMapper.selectAllByNameContaining(categoryName).isEmpty()
                 ? Optional.empty()
-                : Optional.of(categoryMapper.selectAllByNameContaining(categoryName));
+                : Optional.ofNullable(categoryMapper.selectAllByNameContaining(categoryName));
     }
 }

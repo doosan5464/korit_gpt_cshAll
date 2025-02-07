@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.BookMapper">
+    <!--다른 경로에 있는 ResultMap들을 가져오고-->
+    <resultMap id="authorResultMap" type="com.korit.springboot_study.entity.Author">
+        <id property="authorId" column="at_author_id" />
+        <result property="authorName" column="author_name" />
+    </resultMap>
+
+    <resultMap id="categoryResultMap" type="com.korit.springboot_study.entity.Category">
+        <id property="categoryId" column="ct_category_id" />
+        <result property="categoryName" column="category_name" />
+    </resultMap>
+
+    <resultMap id="publisherResultMap" type="com.korit.springboot_study.entity.Publisher">
+        <id property="publisherId" column="pt_publisher_id" />
+        <result property="publisherName" column="publisher_name" />
+    </resultMap>
+
+    <resultMap id="bookResultMap" type="com.korit.springboot_study.entity.Book">
+        <id property="bookId" column="book_id" />
+
+        <result property="bookName" column="book_name" />
+        <result property="authorId" column="bt_author_id" />
+        <result property="isbn" column="isbn" />
+        <result property="categoryId" column="category_id" />
+        <result property="publisherId" column="publisher_id" />
+        <result property="bookImgUrl" column="book_img_url" />
+
+        <!--여기서 결합-->
+        <association property="author" resultMap="authorResultMap" />
+        <association property="category" resultMap="categoryResultMap" />
+        <association property="publisher" resultMap="publisherResultMap" />
+    </resultMap>
+
+    <!--알아서 mapping 해줌-->
+    <insert id="insert" keyProperty="bookId" useGeneratedKeys="true" >
+        insert into book_tb
+        values (default, #{bookName}, #{authorId}, #{isbn}, #{categoryId}, #{publisherId}, #{bookImgUrl})
+    </insert>
+
+    <select id="selectAllByNameContaining" resultMap="bookResultMap">
+        select
+            bt.book_id,
+            bt.book_name,
+            bt.author_id as bt_author_id,
+            bt.isbn,
+            bt.category_id as bt_category_id,
+            bt.publisher_id as bt_publisher_id,
+            bt.book_img_url,
+
+            at.author_id as at_author_id,
+            at.author_name,
+
+            ct.category_id as ct_category_id,
+            ct.category_name,
+
+            pt.publisher_id as pt_publisher_id,
+            pt.publisher_name
+        from
+            book_tb bt <!--left outer join 현재 book 기준으로 함. 속성이 제일 많아서, 왼쪽은 전체 조회, 오른쪽은 부분 조회(없으면 null)-->
+            left outer join author_tb at on(at.author_id = bt.author_id)
+            left outer join category_tb ct on(ct.category_id = bt.category_id)
+            left outer join publisher_tb pt on(pt.publisher_id = bt.publisher_id)
+        where
+            bt.book_name like concat("%", #{bookName}, "%")
+    </select>
+
+</mapper>
