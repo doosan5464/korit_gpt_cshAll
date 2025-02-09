@@ -38,9 +38,16 @@
     </resultMap>
 
     <!--알아서 mapping 해줌-->
+    <!--원래라면 Controller의 경로에서 /{ddd} 이렇게 쳐야하는데 어째서 여기는 그런게 없이 잘 되는가-->
+    <!--MyBatis가 SQL 쿼리를 실행할 때 매개변수를 직접 바인딩해서 처리하기 때문-->
     <insert id="insert" keyProperty="bookId" useGeneratedKeys="true" >
         insert into book_tb
         values (default, #{bookName}, #{authorId}, #{isbn}, #{categoryId}, #{publisherId}, #{bookImgUrl})
+        <!--default는 자동 증가(AUTO_INCREMENT) 또는 기본값이 설정된 컬럼을 의미-->
+        <!--book_tb 테이블의 첫 번째 컬럼이 AUTO_INCREMENT 필드라면, default를 넣어도 자동으로 값이 채워짐-->
+        <!--useGeneratedKeys="true"와 함께 사용하면 MyBatis가 자동 생성된 키를 가져올 수 있음-->
+
+        <!--**param은 순서없이 되지만 default는 순서를 맞춰야 한다**-->
     </insert>
 
     <select id="selectAllByNameContaining" resultMap="bookResultMap">
@@ -68,6 +75,7 @@
             left outer join publisher_tb pt on(pt.publisher_id = bt.publisher_id)
         where
             bt.book_name like concat("%", #{bookName}, "%")
+
     </select>
 
 </mapper>

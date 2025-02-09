@@ -16,6 +16,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    // Dto를 받았으니 리턴을 book객체로 줘야함
     public Book addBook(ReqAddBookDto reqAddBookDto) {
         return bookRepository
                 .save(reqAddBookDto.toBook())

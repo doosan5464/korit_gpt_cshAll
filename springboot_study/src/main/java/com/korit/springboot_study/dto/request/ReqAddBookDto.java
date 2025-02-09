@@ -1,6 +1,5 @@
 package com.korit.springboot_study.dto.request;
 
-import com.korit.springboot_study.entity.Author;
 import com.korit.springboot_study.entity.Book;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,6 +30,9 @@ public class ReqAddBookDto {
     @URL
     private String bookImgUrl;
 
+    // DTO : 클라이언트 -> 서버
+    // ReqAddBookDto를 그대로 BookMapper.insert()에 넣으면 MyBatis가 이해할 수 없음
+    // 그래서 Build로 book 객체로 변환
     public Book toBook() {
         return Book.builder()
                 .bookName(bookName)

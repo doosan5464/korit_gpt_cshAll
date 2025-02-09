@@ -18,7 +18,7 @@ public class Book {
     private int publisherId;
     private String bookImgUrl;
 
-    // n:n 관계
+    // n:n 관계를 하려면 List로 지금은 1:n
     private Author author;
     private Category category;
     private Publisher publisher;
