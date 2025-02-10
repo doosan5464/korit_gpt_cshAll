@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,5 +27,23 @@ public class UserRepository {
     public Optional<User> findByUsername(String username) {
 
         return Optional.ofNullable(userMapper.selectByUsername(username));
+    }
+
+    public Optional<User> findById(int id) {
+        return Optional.ofNullable(userMapper.selectById(id));
+    }
+
+    public Optional<List<User>> findByRoleId(int roleId) {
+        return Optional.ofNullable(userMapper.selectByRoleId(roleId));
+    }
+
+
+    public Optional<Boolean> updateUserById(User user) {
+        return userMapper.updateUserById(user) < 1 ? Optional.empty() : Optional.of(true);
+    }
+
+
+    public Optional<Boolean> deleteUserById(int id) {
+        return userMapper.deleteById(id) < 1 ? Optional.empty() : Optional.of(true);
     }
 }

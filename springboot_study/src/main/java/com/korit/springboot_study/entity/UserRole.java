@@ -14,4 +14,6 @@ public class UserRole {
     private int userRoleId;
     private int userId;
     private int roleId;
+
+    private Role role;
 }

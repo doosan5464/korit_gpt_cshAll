@@ -18,16 +18,15 @@ public class AutoCreateDML implements CommandLineRunner { // CommandLineRunner�
 
     @Override
     public void run(String... args) throws Exception {
-        insertRole();
+//        insertRole();
     }
 
-    // 여기에 Role만 넣어주면 insert해준다?
     private void insertRole() {
         List<String> roleNames = List.of("USER", "ADMIN", "MANAGER");
         roleMapper.insertAll(
-                roleNames.stream()
-                    .map(name -> Role.builder().roleName("ROLE_" + name).build())
-                    .collect(Collectors.toList())
+                    roleNames.stream()
+                            .map(name -> Role.builder().roleName("ROLE_" + name).build())
+                            .collect(Collectors.toList())
         );
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface BookMapper {
+    // Category와 동일
 
     int insert(Book book);
 

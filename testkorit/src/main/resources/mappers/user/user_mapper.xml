@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.korit.springboot_study.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <result property="createTime" column="create_at" />
+    </resultMap>
+
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true" >
+        insert into user_tb
+        values(default, #{username}, #{password}, #{name}, #{email}, now())
+    </insert>
+
+    <select id="selectByUserId" resultMap="userResultMap">
+        select
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.name,
+            ut.email,
+            ut.create_at
+        from
+            user_tb ut <!--중간 테이블, master, on에 기준2개를 봐야 어디에 붙이는지 알 수 있음-->
+        where
+            ut.user_id = #{userId}
+    </select>
+
+
+
+</mapper>
