@@ -7,7 +7,7 @@
 <mapper namespace="com.korit.springboot_study.mapper.PostMapper">
     <resultMap id="postResultMap" type="com.korit.springboot_study.entity.Post">
         <id property="postId" column="post_id" />
-        <result property="userId" column="pt_user_id" />
+        <result property="userId" column="pt_user_id" /> <!--DB에 user_id가 있고, Java 객체에는 userId가 있으면 앞에 pt_접두는 mybatis가 알아서 인식한다-->
         <result property="title" column="title" />
         <result property="content" column="content" />
         <result property="createdAt" column="created_at" />
