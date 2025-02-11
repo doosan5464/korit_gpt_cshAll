@@ -15,3 +15,4 @@ mybatis:
     - /mappers/*.xml # mappers안에 있는 모든 .xml 파일을 mapper로 등록
     - /mappers/book/*.xml
     - /mappers/user/*.xml
+    - /mappers/post/*.xml

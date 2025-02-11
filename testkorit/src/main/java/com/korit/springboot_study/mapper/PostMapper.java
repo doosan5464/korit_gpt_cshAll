@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface PostMapper {
 
+
     int insert (Post post);
 
 
@@ -18,6 +19,10 @@ public interface PostMapper {
 
 
     int insertLike(int postId, int userId);
+
+
     int deleteByPostId(int postId, int userId);
+
+
     Post selectLikeByPostId(int postId);
 }

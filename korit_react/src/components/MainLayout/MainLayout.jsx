@@ -13,6 +13,7 @@ function MainLayout({ children }) {
         // <MainHeader /> : 어느 페이지를 가든 항상 있을 구성요소들
         // { children } 은 자식 요소를 부모 컴포넌트에 동적으로 전달할 때 사용
         // 이제 App.js에서 이 MainLayout을 쓰면
+        
         /*
 
             <MainLayout>

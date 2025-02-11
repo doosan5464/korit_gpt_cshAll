@@ -73,7 +73,7 @@ function App() {
                                                  // authenticatedUserQuery는 동기 함수로 호출되는 비동기 함수
         :
         <MainLayout>
-          <Routes>
+          <Routes> 
             <Route path="/" element={ <IndexPage /> } />
             <Route path="/write" element={ <WritePage /> } />
             <Route path="/list" element={ <ListPage /> } />
