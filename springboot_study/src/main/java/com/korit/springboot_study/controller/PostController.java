@@ -1,5 +1,6 @@
 package com.korit.springboot_study.controller;
 
+import com.korit.springboot_study.aspect.anntotation.TimeAop;
 import com.korit.springboot_study.dto.request.ReqCreatePostDto;
 import com.korit.springboot_study.dto.response.common.SuccessResponseDto;
 import com.korit.springboot_study.entity.Post;
@@ -27,6 +28,7 @@ public class PostController {
                 .body(new SuccessResponseDto<>(postService.createPost(reqCreatePostDto))); // created() -> link를 줄 때 ok()대신 쓰기도 함
     } // SuccesRequstDto 쓰다가 이렇게 쓴 이유 : 응답 코드를 body안에 넣어주고 싶어서??
 
+    @TimeAop
     @GetMapping("api/post/{postId}") // Read. 단건
     public ResponseEntity<SuccessResponseDto<Post>> getPost(@PathVariable int postId) throws Exception {
         return ResponseEntity

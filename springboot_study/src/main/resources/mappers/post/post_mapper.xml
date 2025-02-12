@@ -18,37 +18,16 @@
 
     <resultMap id="userResultMap" type="com.korit.springboot_study.entity.User">
         <id property="userId" column="ut_user_id"/>
-        <result property="username" column="username"/> <!--필요한 속성만 가져와도 됨-->
+        <result property="username" column="username"/>
     </resultMap>
 
     <insert id="insert" keyProperty="postId" useGeneratedKeys="true">
         insert into post_tb
         values(default, #{userId}, #{title}, #{content}, now(), now())
     </insert>
-    <!--
-    <select id="selectById" resultType="com.korit.springboot_study.entity.Post">   ->   resultMap을 안쓸 때 타입을 Mapper에 맞게
-        select
-            post_id as postId,
-            user_id as userId,
-            title,
-            content,
-            created_at as createAt,
-            updated_at as updateAt
-        from
-            post_tb
-        where
-            post_id = #{postId}
-    </select>
-    재사용성 안좋음. 새로 만들 때 마다 계속 as 해줘야함, 그냥 예시용
-    -->
 
-    <!--
-    좋아요가 없어도 나오도록 함
-    left outer join 으로 post_like_tb에 좋아요가 없더라도 해당 게시물의 정보를 포함시키고, 좋아요가 없다면 like_count를 0으로 반환
-    -->
     <select id="selectById" resultMap="postResultMap">
-        <!--sql 쿼리문 따로 만들기(임시 테이블)-->
-        with cte_post_like_count_tb as (
+        with cte_post_like_count_tb as ( <!--sql 쿼리문 따로 만들기(임시 테이블)-->
             select
                 post_id,
                 count(post_id) as like_count
@@ -56,8 +35,7 @@
                 post_like_tb
             group by
                 post_id
-        )
-
+            )
         select
             pt.post_id,
 
@@ -72,45 +50,45 @@
 
             ifnull(cplct.like_count, 0) as like_count <!--like_count가 null이라면 0으로 대체-->
         from
-        post_tb pt
+            post_tb pt
             inner join user_tb ut on(ut.user_id = pt.user_id)
-            left outer join cte_post_like_count_tb cplct on(cplct.post_id = pt.post_id) <!--원래는 null로 테이블이 붙어야 하지만 위에서 0으로 처리함-->
+            left outer join cte_post_like_count_tb cplct on(cplct.post_id = pt.post_id)
         where
-            post_id = #{postId}
+            pt.post_id = #{postId}
     </select>
 
     <select id="selectAllBykeywordContaining" resultMap="postResultMap">
         with cte_post_like_count_tb as (
-            select
-                post_id,
-                count(post_id) as like_count
-            from
-                post_like_tb
-            group by
-                post_id
+        select
+        post_id,
+        count(post_id) as like_count
+        from
+        post_like_tb
+        group by
+        post_id
         )
         select
-            pt.post_id,
+        pt.post_id,
 
-            pt.user_id as pt_user_id,
-            ut.user_id as ut_user_id,
-            ut.username,
+        pt.user_id as pt_user_id,
+        ut.user_id as ut_user_id,
+        ut.username,
 
-            pt.title,
-            pt.content,
-            pt.created_at,
-            pt.updated_at,
+        pt.title,
+        pt.content,
+        pt.created_at,
+        pt.updated_at,
 
-            ifnull(cplct.like_count, 0) as like_count
+        ifnull(cplct.like_count, 0) as like_count
         from
-            post_tb pt
-            inner join user_tb ut on(ut.user_id = pt.user_id)
-            left outer join cte_post_like_count_tb cplct on(cplct.post_id = pt.post_id)
-        where <!--제목, 내용을 or으로 검색-->
-            title like concat("%", #{keyword}, "%")
-            or content like concat("%", #{keyword}, "%")
-        order by <!--다건조회일 때, 필수-->
-            post_id desc <!--게시글은 내림차순-->
+        post_tb pt
+        inner join user_tb ut on(ut.user_id = pt.user_id)
+        left outer join cte_post_like_count_tb cplct on(cplct.post_id = pt.post_id)
+        where
+        title like concat("%", #{keyword}, "%")
+        or content like concat("%", #{keyword}, "%")
+        order by
+        post_id desc
         limit #{startIndex}, #{limitCount} <!--a, b : a부터 b개 까지만-->
     </select>
 </mapper>

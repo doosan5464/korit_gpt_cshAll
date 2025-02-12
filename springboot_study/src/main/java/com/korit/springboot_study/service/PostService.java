@@ -1,5 +1,6 @@
 package com.korit.springboot_study.service;
 
+import com.korit.springboot_study.aspect.anntotation.PrintParamsAop;
 import com.korit.springboot_study.dto.request.ReqCreatePostDto;
 import com.korit.springboot_study.entity.Post;
 import com.korit.springboot_study.entity.PostLike;
@@ -29,11 +30,14 @@ public class PostService {
                 .get(); // db에러는 딱히 예외처리 해줄 그게 없다??
     }
 
+    @PrintParamsAop //
     public Post getPostById(int postId) throws Exception {
-        return postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundException("해당 postId의 게시글이 존재하지 않습니다."));
+        return post;
     }
 
+    @PrintParamsAop //
     public List<Post> getAllPostsByKeywordContaining(int page, int size, String keyword) throws Exception {
         int startIndex = (page - 1) * size; // 인덱스는 0부터니까, page는 1부터 시작하니까
         List<Post> posts = postRepository.findAllByKeywordContaining(startIndex, size, keyword)
@@ -47,7 +51,8 @@ public class PostService {
                 .userId(userId)
                 .build();
         return postLikeRepository.save(postLike)
-                .orElseThrow(() -> new CustomDuplicateKeyException("", Map.of("message", "해당 게시글을 이미 like 처리 하였습니다.")));
+                .orElseThrow(() -> new CustomDuplicateKeyException("", Map.of("message", "해당 게시글을 이미 like 처리하였습니다.")));
+
     }
 
 }
