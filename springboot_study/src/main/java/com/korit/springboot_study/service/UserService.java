@@ -43,16 +43,21 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent(); // isPresent() : 값이 있으면 true
     }
 
+    public List<User> getUserByRoleId(int roleId) throws NotFoundException {
+        return userRepository
+                .findByRoleId(roleId)
+                .orElseThrow(() -> new NotFoundException("해당 Role ID는 존재하지 않습니다"));
+    }
+
     public User getUserById(int userId) throws NotFoundException {
         return userRepository
                 .findById(userId)
                 .orElseThrow(() -> new NotFoundException("해당 사용자 ID는 존재하지 않습니다"));
     }
 
-    public List<User> getUserByRoleId(int roleId) throws NotFoundException {
-        return userRepository
-                .findByRoleId(roleId)
-                .orElseThrow(() -> new NotFoundException("해당 Role ID는 존재하지 않습니다"));
+    public List<User> getAllUsers() throws NotFoundException {
+        return userRepository.findAll()
+                .orElseThrow(() -> new NotFoundException("사용자 정보가 존재하지 않습니다."));
     }
 
     @Transactional(rollbackFor = Exception.class) // update는 에러가 터지니까?

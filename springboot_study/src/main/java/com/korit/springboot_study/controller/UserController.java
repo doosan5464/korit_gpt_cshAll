@@ -59,7 +59,11 @@ public class UserController {
         return ResponseEntity.ok().body(new SuccessResponseDto<>(userService.getUserByRoleId(roleId)));
     }
 
-    // 깃에 전체 조회 가져오기(위에 Role ID로 조회는 그냥 내가 만든거임, 만들고 보니 강사님이랑 다름)
+    @GetMapping("/api/users")
+    @ApiOperation(value = "사용자 정보 전체 조회")
+    public ResponseEntity<SuccessResponseDto<List<User>>> getUsersAll() throws NotFoundException {
+        return ResponseEntity.ok().body(new SuccessResponseDto<>(userService.getAllUsers()));
+    }
 
     @PutMapping("/api/usersssssss/{userId}")
     @ApiOperation(value = "사용자 수정")

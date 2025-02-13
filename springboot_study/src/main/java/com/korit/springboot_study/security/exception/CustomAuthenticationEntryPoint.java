@@ -31,7 +31,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding("UTF-8"); // 한글 깨짐 방지를 위해 UTF-8 인코딩 설정
 
         // 클라이언트에게 JSON 응답 전송 (Map.of 사용해 {"error": "hey hey 인증 필요~!~!"} 형태로 변환)
-        response.getWriter().write(objectMapper.writeValueAsString(Map.of("error", "hey hey 인증 필요~!~!")));
+        response.getWriter().write(objectMapper.writeValueAsString(Map.of("error", "인증 필요~!~!")));
     }
 
 }

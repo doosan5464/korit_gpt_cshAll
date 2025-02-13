@@ -17,6 +17,8 @@ public interface UserMapper {
 
     List<User> selectByRoleId(int roleId);
 
+    List<User> selectAll();
+
     int updateUserById(User user);
 
     int deleteById(int userId);

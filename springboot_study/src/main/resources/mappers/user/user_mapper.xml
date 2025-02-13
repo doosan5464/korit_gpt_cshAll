@@ -12,6 +12,10 @@
         <result property="password" column="password" />
         <result property="name" column="name" />
         <result property="email" column="email" />
+        <result property="isAccountNonExpired" column="account_expired" />
+        <result property="isAccountNonLocked" column="account_locked" />
+        <result property="isCredentialsNonExpired" column="credentials_expired" />
+        <result property="isEnabled" column="account_enabled" />
         <collection property="userRoles" resultMap="userRoleResultMap" />
     </resultMap>
 
@@ -19,6 +23,7 @@
         <id property="userId" column="user_id" />
         <result property="userId" column="user_id" />
         <result property="roleId" column="role_id" />
+
         <association property="role" resultMap="roleResultMap" />
     </resultMap>
 
@@ -30,7 +35,7 @@
 
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true" >
         insert into user_tb
-        values(default, #{username}, #{password}, #{name}, #{email})
+        values(default, #{username}, #{password}, #{name}, #{email}, 1, 1, 1, 1)
     </insert>
 
     <update id="updateUserById">
@@ -51,25 +56,15 @@
 
     <select id="selectByUsername" resultMap="userResultMap">
         select
-            user_id,
-            username,
-            password,
-            name,
-            email
-        from
-            user_tb
-        where
-            username = #{username}
-    </select>
-
-    <!--ReqModifyUserDto. 회원정보 수정-->
-    <select id="selectById" resultMap="userResultMap">
-        select
             ut.user_id,
             ut.username,
             ut.password,
             ut.name,
             ut.email,
+            ut.account_expired,
+            ut.account_locked,
+            ut.credentials_expired,
+            ut.account_enabled,
 
             <!--1명의 유저가 여러 권한이 있음-->
             urt.user_role_id,
@@ -85,9 +80,37 @@
             left outer join role_tb rt on(rt.role_id = urt.role_id)
             <!--user_role에 role을 n:1 관계로 삽입(user_role의 큰 개념의 한 부분이 role, 여러 개의 사용자 역할이 하나의 역할을 참조)-->
         where
+            ut.username = #{username}
+    </select>
+
+    <!--ReqModifyUserDto. 회원정보 수정-->
+    <select id="selectById" resultMap="userResultMap">
+        select
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.name,
+            ut.email,
+            ut.account_expired,
+            ut.account_locked,
+            ut.credentials_expired,
+            ut.account_enabled,
+
+            urt.user_role_id,
+            urt.user_id,
+            urt.role_id,
+
+            rt.role_id,
+            rt.role_name
+        from
+            user_tb ut
+            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = urt.role_id)
+        where
             ut.user_id = #{userId}
     </select>
 
+    <!--내가 따로 만든거. 깃에 없음-->
     <select id="selectByRoleId" resultType="com.korit.springboot_study.entity.User">
         select
             ut.user_id,
@@ -95,13 +118,37 @@
 
             urt.user_role_id,
             urt.user_id,
-            urt.role_id,
-
+            urt.role_id
         from
             user_tb
             left outer join user_role_tb urt on(urt.user_id = ut.user_id)
         where
             urt.role_id = #{roleId}
+    </select>
+
+    <!--내가 아직 깃에서 selectAll을 안가져옴. 그때 다른거 만들었음-->
+    <select id="selectAll" resultMap="userResultMap" >
+        select
+        ut.user_id,
+        ut.username,
+        ut.password,
+        ut.name,
+        ut.email,
+        ut.account_expired,
+        ut.account_locked,
+        ut.credentials_expired,
+        ut.account_enabled,
+
+        urt.user_role_id,
+        urt.user_id,
+        urt.role_id,
+
+        rt.role_id,
+        rt.role_name
+        from
+        user_tb ut
+        left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+        left outer join role_tb rt on(rt.role_id = urt.role_id)
     </select>
 
 </mapper>

@@ -37,6 +37,11 @@ public class UserRepository {
         return Optional.ofNullable(userMapper.selectByRoleId(roleId));
     }
 
+    public Optional<List<User>> findAll() {
+        List<User> foundUsers = userMapper.selectAll();
+        return foundUsers.isEmpty() ? Optional.empty() : Optional.of(foundUsers);
+    }
+
 
     public Optional<Boolean> updateUserById(User user) {
         return userMapper.updateUserById(user) < 1 ? Optional.empty() : Optional.of(true);

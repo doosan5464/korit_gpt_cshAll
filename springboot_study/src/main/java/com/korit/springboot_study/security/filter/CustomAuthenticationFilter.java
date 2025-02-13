@@ -4,6 +4,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -69,6 +70,7 @@ public class CustomAuthenticationFilter implements Filter {
         // SecurityContextHolder를 통해 현재 요청의 인증 정보를 저장
         // 위에 지금 싹다 true로 수정함. 하나라도 false면 인증 실패
         /*
+
         SecurityContextHolder
         : 현재 요청(스레드)의 보안 컨텍스트를 관리하는 전역 저장소
             이 안에는 SecurityContext 객체가 들어있고,
@@ -82,6 +84,7 @@ public class CustomAuthenticationFilter implements Filter {
             즉, 요청이 들어올 때 SecurityContextPersistenceFilter가 SecurityContext를 생성 (이전 요청에서 저장된 값이 있으면 불러옴)
             우리가 setAuthentication(authenticationToken)을 하면 SecurityContext에 저장
          */
+
         filterChain.doFilter(servletRequest, servletResponse);
         // 다음 필터로 요청을 넘김
         // SecurityConfig에서 http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); 로 다음 필터는 기본 필터를 작동

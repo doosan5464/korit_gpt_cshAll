@@ -22,4 +22,10 @@ public class User {
 
     // <Role> 말고 <UserRole>이 들어와야 함. 바로 못넣음
     List<UserRole> userRoles;
+
+    // security의 PrincipalUser, int 인 이유 : db에서는 int로 저장함. 그러면 가져올때 boolean으로 쓸 수 있어서
+    private int isAccountNonExpired;
+    private int isAccountNonLocked;
+    private int isCredentialsNonExpired;
+    private int isEnabled;
 }
