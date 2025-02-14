@@ -23,14 +23,15 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         DefaultOAuth2UserService defaultOAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = defaultOAuth2UserService.loadUser(userRequest);
 
-        Map<String, Object> newAttributes = new HashMap<>();
-
         Map<String, Object> attributes = oAuth2User.getAttributes();
+
+        Map<String, Object> newAttributes = new HashMap<>();
         Collection<? extends GrantedAuthority> authorities = oAuth2User.getAuthorities();
 
         if (provider.equals("google")) {
-            newAttributes.put("oauth2Id", attributes.get("sub")); // 구글, 카카오 다 이름이 다르니까 oauthId로 다 바꾸는 것
+            newAttributes.put("oauth2Id", attributes.get("sub"));
         }
+
         newAttributes.put("provider", provider);
 
         return new DefaultOAuth2User(authorities, newAttributes, "oauth2Id");
