@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.CategoryMapper">
+
+    <resultMap id="categoryResultMap" type="com.korit.springboot_study.entity.Category">
+        <id property="categoryId" column="category_id" />
+        <result property="categoryName" column="category_name" />
+    </resultMap>
+
+    <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true" >
+        insert into category_tb
+        values (default, #{categoryName})
+    </insert>
+
+    <select id="selectAllByNameContaining" resultMap="categoryResultMap">
+        select
+            category_id,
+            category_name
+        from
+            category_tb
+        where <!--where category_name like "%categoryName%" : categoryName이 포함된-->
+            category_name like concat("%", #{categoryName}, "%") <!--concat : a, b, c 를 연결-->
+            <!--categoryName이 빈 문자열인 경우 모든 카테고리 항목을 조회-->
+            <!--String같은 타입은 빈 문자열이 가능하지만 Category같은 객체는 빈 문자열이 불가능하다-->
+            <!--
+            빈 문자열 vs null
+                빈 문자열 : 길이가 0인 문자열 " ", 메모리 할당 O
+                null : 길이라는 개념도 없고 참조도 없는 값이 없는 개념, 메모리 할당 X
+            -->
+    </select>
+
+</mapper>

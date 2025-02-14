@@ -88,5 +88,16 @@ public class CustomAuthenticationFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
         // 다음 필터로 요청을 넘김
         // SecurityConfig에서 http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); 로 다음 필터는 기본 필터를 작동
+        // doFilter()를 호출하지 않으면 요청이 필터에서 멈춰서 Swagger UI가 아예 뜨지 않음
+        /*
+        이거 없다고 왜 안뜨냐?
+
+        tomcat에서 만들어주는 requset와 response는 user가 요청을 따로 조회 하지않아도 이미 tomcat에서 만들어줌.
+
+        그런데 필터들 사이에서 doFilter가 없으면 filter들 중간에 메서드의 실행이 막힌다.(필터는 메서드)
+        그렇게 tomcat의 requset와 response는 순환되지 못하고 한 곳에 멈춰버림.
+
+        애초에 FIlterChain으로 연결을 해놨는데 doFilter가 하나라도 없다면 에러가 생김
+         */
     }
 }

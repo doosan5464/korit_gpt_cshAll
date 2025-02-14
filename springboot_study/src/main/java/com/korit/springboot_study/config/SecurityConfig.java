@@ -2,6 +2,9 @@ package com.korit.springboot_study.config;
 
 import com.korit.springboot_study.security.exception.CustomAuthenticationEntryPoint;
 import com.korit.springboot_study.security.filter.JwtAuthenticationFilter;
+import com.korit.springboot_study.security.oauth2.OAuth2Service;
+import com.korit.springboot_study.security.oauth2.OAuth2SuccessHandler;
+import io.swagger.models.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity // 시큐리티 설정 적용
 // 여기가 JWT 시작점?
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // 이미 모두 구현되어있는 시큐리티 패키지
+
+    @Autowired
+    private OAuth2SuccessHandler oAuth2SuccessHandler;
+    @Autowired
+    private OAuth2Service oAuth2Service;
 
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -42,12 +50,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 이미 모
         http.sessionManagement() // 세션 안쓸려고
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // jwt 로그인 권한을 상시 유지하지 않겠다
 
-        http.exceptionHandling() // 인증 예외 생기면 여기서 처리할게
-                .authenticationEntryPoint(customAuthenticationEntryPoint); // 여기서 예외 처리("Authorization"이 없는 경우) 받겠습니다,
-
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         // jwtAuthenticationFilter를 기본 로그인 필터 앞에 배치해서 JWT 인증 같은 걸 먼저 수행하고 싶을 때 사용
         // jwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter보다 먼저 실행되도록 설정
+
+        http.oauth2Login() // 구글 로그인 라이브러리
+                .successHandler(oAuth2SuccessHandler) //
+                        .userInfoEndpoint()
+                                .userService(oAuth2Service);
+
+        http.exceptionHandling() // 인증 예외 생기면 여기서 처리할게
+                .authenticationEntryPoint(customAuthenticationEntryPoint); // 여기서 예외 처리("Authorization"이 없는 경우) 받음
+
 
         http.authorizeRequests()  // 요청들에 대한 권한 설정
                 .antMatchers(     // 라는 경로들은

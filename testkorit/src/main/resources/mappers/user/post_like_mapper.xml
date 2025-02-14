@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.PostLikeMapper">
+
+    <insert id="insert">
+        insert into post_like_tb
+        select
+        iv.post_like_id,
+        iv.post_id,
+        iv.user_id,
+        iv.created_at
+        from <!--동작 : -->
+        (select 0 as post_like_id, #{postId} as post_id, #{userId} as user_id, now() as created_at) iv
+        left outer join post_like_tb plt on(plt.post_id = iv.post_id and plt.user_id = iv.user_id)
+        where
+        plt.post_like_id is null
+    </insert>
+
+    <delete id="deleteByPostIdAndUserId">
+        delete
+        from
+        post_like_tb
+        where
+        post_id = #{postId}
+        and
+        user_id = #{userId}
+    </delete>
+
+    <select id="selectLikeCountByPostId" resultType="java.lang.Integer"> <!--이건 그냥 좋아요 몇개인지-->
+        select
+        post_id,
+        count(post_id) as like_count
+        from
+        post_like_tb
+        where
+        post_id = #{postId}
+        group by
+        post_id
+    </select>
+
+    <resultMap id="likeCountResultMap" type="com.korit.springboot_study.entity.PostLike">
+        <!--post_like_tb의 특정 행을 나타내는 것이 아니라, post_id별 집계된 데이터이므로 기본 키(id 태그)가 필요 없음-->
+        <!--<id> 태그는 해당 테이블의 기본 키(Primary Key)를 지정할 때 사용-->
+        <result property="postId" column="post_id" />
+        <result property="likeCount" column="like_count" />
+    </resultMap>
+    <select id="selectLikeCountAll" resultMap="likeCountResultMap"> <!--이건 게시글별로 좋아요 몇개인지, 그래서 resultMap-->
+        select
+        post_id,
+        count(post_id) as like_count
+        from
+        post_like_tb
+        group by
+        post_id
+    </select>
+
+</mapper>

@@ -1,16 +1,10 @@
 package com.korit.springboot_study.dto.request.study;
 
 import com.korit.springboot_study.entity.Post;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Builder
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
-public class ReqAddPostDto {
+public class ReqCreatePostDto {
     private int userId;
     private String title;
     private String content;
@@ -22,5 +16,4 @@ public class ReqAddPostDto {
                 .content(content)
                 .build();
     }
-
 }

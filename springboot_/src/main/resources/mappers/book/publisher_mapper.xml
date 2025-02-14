@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_study.mapper.PublisherMapper">
+    <resultMap id="publisherResultMap" type="com.korit.springboot_study.entity.Publisher">
+        <id property="publisherId" column="publisher_id" />
+        <result property="publisherName" column="publisher_name" />
+    </resultMap>
+
+    <insert id="insert" keyProperty="publisherId" useGeneratedKeys="true" >
+        insert into publisher_tb
+        values (default, #{publisherName})
+    </insert>
+
+    <select id="selectAllByNameContaining" resultMap="publisherResultMap">
+        select
+        publisher_id,
+        publisher_name
+        from
+        publisher_tb
+        where
+        publisher_name like concat("%", #{publisherName}, "%")
+    </select>
+
+</mapper>
