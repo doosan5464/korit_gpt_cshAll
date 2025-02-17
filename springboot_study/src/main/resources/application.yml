@@ -5,6 +5,17 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+# 컨트롤러 없이도 요청을 할 수가 있다???
+# 별도의 컨트롤러 없이도 /actuator/health로 요청하면 시스템 상태 정보를 받을 수 있음
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 # mybatis : Java 애플리케이션에서 SQL을 쉽게 사용할 수 있도록 도와주는 프레임워크
 mybatis:
   mapper-locations:

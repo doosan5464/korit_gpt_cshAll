@@ -25,7 +25,7 @@ public class AuthenticationController {
     private  AuthenticationService authenticationService;
 
     @PrintParamsAop
-    @PostMapping("/api/auth/user/signup")
+    @PostMapping("/api/auth/signup")
     @ApiOperation(value = "회원가입")
     public ResponseEntity<SuccessResponseDto<User>> signup(@Valid @RequestBody ReqSignupDto reqSignupDto) throws MethodArgumentNotValidException {
         return ResponseEntity.ok().body(new SuccessResponseDto<>(authenticationService.signup(reqSignupDto)));

@@ -1,21 +1,19 @@
 package com.korit.springboot_study.config;
 
 import com.korit.springboot_study.security.exception.CustomAuthenticationEntryPoint;
+import com.korit.springboot_study.security.filter.CustomAuthenticationFilter;
 import com.korit.springboot_study.security.filter.JwtAuthenticationFilter;
 import com.korit.springboot_study.security.oauth2.OAuth2Service;
 import com.korit.springboot_study.security.oauth2.OAuth2SuccessHandler;
-import io.swagger.models.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -42,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 이미 모
 
     @Override
     protected void configure(HttpSecurity http) throws Exception { // Configuration 이지만 void. httpSecurity에서는 그냥 설정임
+        http.cors(); // cors를 쓰겠다 (이게 뭔데???)
         http.csrf().disable(); // CSRF : 웹 애플리케이션에서 CSRF 공격을 방지하기 위해 사용되는 특별한 문자열
                                // (서버는 클라이언트가 보낸 CSRF 토큰이 서버가 보낸 값과 일치하는지 확인, 사용자가 의도하지 않은 요청을 보낼 수 없도록 해서 CSRF 공격을 방어)
         http.httpBasic().disable(); // alert 로그인 금지
@@ -68,13 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 이미 모
                         "/swagger-ui/**",
                         "/v2/api-docs/**",
                         "/v3/api-docs/**",
-                        "/swagger-resources/**"
+                        "/swagger-resources/**",
+                        "/server/hc"
                 )
                 .permitAll()      // 다 허락
 
                 .antMatchers(
                         "/api/auth/**"
                 )
+                .permitAll()
+
+                .antMatchers(HttpMethod.GET, "/api/post/**")
                 .permitAll()
 
                 .anyRequest()      // 나머지 모든 요청들은
