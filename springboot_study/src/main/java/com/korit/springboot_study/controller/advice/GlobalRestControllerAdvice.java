@@ -1,6 +1,6 @@
 package com.korit.springboot_study.controller.advice;
 
-import com.korit.springboot_study.dto.response.common.BadRequsetResponseDto;
+import com.korit.springboot_study.dto.response.common.BadRequestResponseDto;
 import com.korit.springboot_study.dto.response.common.NotFoundResponseDto;
 import com.korit.springboot_study.exception.CustomDuplicateKeyException;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -29,18 +29,18 @@ public class GlobalRestControllerAdvice {
 
     @ExceptionHandler(value = CustomDuplicateKeyException.class)
     // 다른 클래스들에서 예외는 모두 throw로 NotFoundException에 던지고 있어서 여기서 제어
-    public ResponseEntity<BadRequsetResponseDto<?>> duplicateKey(CustomDuplicateKeyException e) { // CustomDuplicateKeyException는 내가 만든 Error(DuplicateKeyException)
-        return ResponseEntity.status(400).body(new BadRequsetResponseDto<>(e.getErrors())); // 사용자 잘못이니까 400
+    public ResponseEntity<BadRequestResponseDto<?>> duplicateKey(CustomDuplicateKeyException e) { // CustomDuplicateKeyException는 내가 만든 Error(DuplicateKeyException)
+        return ResponseEntity.status(400).body(new BadRequestResponseDto<>(e.getErrors())); // 사용자 잘못이니까 400
     }
 
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResponseEntity<BadRequsetResponseDto<?>> signinError(AuthenticationException e) {
-        return ResponseEntity.status(403).body(new BadRequsetResponseDto<>(e.getMessage()));
+    public ResponseEntity<BadRequestResponseDto<?>> signinError(AuthenticationException e) {
+        return ResponseEntity.status(403).body(new BadRequestResponseDto<>(e.getMessage()));
     }
 
     // @Valid로 발생하는 유효성 검사 예외를 처리하는 핸들러
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<BadRequsetResponseDto<?>> validation(MethodArgumentNotValidException e) {
+    public ResponseEntity<BadRequestResponseDto<?>> validation(MethodArgumentNotValidException e) {
         List<Map<String, String>> errorMap = null;
 
         // 유효성 검사 오류 정보 가져오기
@@ -54,13 +54,13 @@ public class GlobalRestControllerAdvice {
         }
 
         // HTTP 상태 코드 400 (Bad Request)와 함께 오류 응답 반환
-        return ResponseEntity.status(400).body(new BadRequsetResponseDto<>(errorMap));
+        return ResponseEntity.status(400).body(new BadRequestResponseDto<>(errorMap));
     }
 
     // @Validated로 발생하는 유효성 검사 예외를 처리하는 핸들러
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity<BadRequsetResponseDto<?>> validation(ConstraintViolationException e) {
-        return ResponseEntity.status(400).body(new BadRequsetResponseDto<>(
+    public ResponseEntity<BadRequestResponseDto<?>> validation(ConstraintViolationException e) {
+        return ResponseEntity.status(400).body(new BadRequestResponseDto<>(
                 e.getConstraintViolations()
                         .stream()
                         // 유효성 검사 실패한 필드 이름과 오류 메시지를 Map 형태로 변환하여 리스트로 저장

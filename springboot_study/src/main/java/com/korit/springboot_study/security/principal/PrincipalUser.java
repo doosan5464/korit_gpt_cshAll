@@ -12,15 +12,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class PrincipalUser implements UserDetails {
     private User user;
 
-    // DB에 전부 컬럼으로 있어야 한다
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // GrantedAuthority의 자식 객체들만
         return user.getUserRoles()
                 .stream()
                 .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
@@ -37,28 +35,27 @@ public class PrincipalUser implements UserDetails {
         return user.getUsername();
     }
 
-    // 여기부터 User Entity 클래스에 다 넣어야 함
     @Override
-    // 계정 사용 기간 만료 여부
     public boolean isAccountNonExpired() {
+        // 계정 사용 기간 만료 여부
         return user.getIsAccountNonExpired() == 1;
     }
 
     @Override
-    // 계정 잠금 여부
     public boolean isAccountNonLocked() {
+        // 계정 잠금 여부
         return user.getIsAccountNonLocked() == 1;
     }
 
     @Override
-    // 계정 인가 여부
     public boolean isCredentialsNonExpired() {
+        // 계정 인가 여부
         return user.getIsCredentialsNonExpired() == 1;
     }
 
     @Override
-    // 계정 활성 여부
     public boolean isEnabled() {
+        // 계정 활성 여부
         return user.getIsEnabled() == 1;
     }
 }

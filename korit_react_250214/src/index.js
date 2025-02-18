@@ -3,16 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const queryClient = new QueryClient; // react-query 다 들어있음. 여기가 본 저장소
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+    }
+  }
+});
 
 root.render(
-  <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient} >
     <RecoilRoot>
       <BrowserRouter>
         <App />
@@ -21,4 +28,4 @@ root.render(
   </QueryClientProvider>
 );
 
-reportWebVitals(); // React에서 웹 애플리케이션의 성능을 측정하는 함수
+reportWebVitals();

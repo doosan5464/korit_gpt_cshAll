@@ -13,20 +13,20 @@ public class TimeAspect {
 
 
     @Pointcut("execution(* com.korit.springboot_study.service.PostService.*(..))")
-    private void executePointcut() {}
+    private void executionPointCut() {}
 
     // 해당위치가 @Pointcut으로 되게끔
-    @Pointcut("@annotation(com.korit.springboot_study.aspect.anntotation.TimeAop)")
-    private void annotationPointcut() {}
+    @Pointcut("@annotation(com.korit.springboot_study.aspect.annotation.TimeAop)")
+    private void annotationPointCut() {}
 
-    @Around("executePointcut()||annotationPointcut()")
+    @Around("executionPointCut()||annotationPointCut()")
     // 메소드 실행시간 얼마 걸렸는지 로직
-    public Object arround(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         Object result = joinPoint.proceed();
         stopWatch.stop();
-        System.out.println("메소드 실행시간: " + stopWatch.getTotalTimeMillis());
+        System.out.println("메소드 실행시간: " + stopWatch.getTotalTimeSeconds());
         return result;
     }
 }

@@ -20,6 +20,6 @@ public class LoggingAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Exception exception = (Exception) joinPoint.getArgs()[0];
         log.error(exception.getMessage());
-        return joinPoint.proceed(); // 후처리없는 전처리만
+        return joinPoint.proceed();
     }
 }

@@ -48,7 +48,7 @@ public class JwtProvider {
             JwtParser parser = Jwts.parserBuilder() // parser 생성
                     .setSigningKey(key)
                     .build();
-            claims = parser.parseClaimsJws(removeBearer(token)).getBody();
+            claims = parser.parseClaimsJws(token).getBody();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class JwtProvider {
     }
 
     // Authorization -> AccessToken(Bearer ?????.?????.?????)
-    private String removeBearer(String bearerToken) { // 앞에 붙은 Bearer를 떼주는 작업
+    public String removeBearer(String bearerToken) { // 앞에 붙은 Bearer를 떼주는 작업
         String token = null;
         final String BEARER_KEYWORD = "Bearer "; // Bearer는 명시적으로 jwt 토큰인걸 알려주기 위해서만 있기때문에 없앰
         if (bearerToken.startsWith(BEARER_KEYWORD)) {

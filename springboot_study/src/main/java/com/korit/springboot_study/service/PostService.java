@@ -1,6 +1,6 @@
 package com.korit.springboot_study.service;
 
-import com.korit.springboot_study.aspect.anntotation.PrintParamsAop;
+import com.korit.springboot_study.aspect.annotation.PrintParamsAop;
 import com.korit.springboot_study.dto.request.ReqCreatePostDto;
 import com.korit.springboot_study.entity.Post;
 import com.korit.springboot_study.entity.PostLike;

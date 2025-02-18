@@ -1,7 +1,7 @@
 package com.korit.springboot_study.controller;
 
 //import com.korit.springboot_study.aspect.anntotation.TimeAop;
-import com.korit.springboot_study.aspect.anntotation.TimeAop;
+import com.korit.springboot_study.aspect.annotation.TimeAop;
 import com.korit.springboot_study.dto.request.ReqCreatePostDto;
 import com.korit.springboot_study.dto.response.common.SuccessResponseDto;
 import com.korit.springboot_study.entity.Post;

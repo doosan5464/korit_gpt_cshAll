@@ -1,4 +1,4 @@
-package com.korit.springboot_study.aspect.anntotation;
+package com.korit.springboot_study.aspect.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

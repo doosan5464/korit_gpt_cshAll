@@ -1,5 +1,6 @@
 package com.korit.springboot_study.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,25 +15,25 @@ import org.springframework.stereotype.Component;
 public class PrintParamsAspect {
     // 매번 sout로 확인했는데 그거 대신에 확인하는 용도
 
-    private static final Logger log = LoggerFactory.getLogger(TimeAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(PrintParamsAspect.class);
 
-    @Pointcut("@annotation(com.korit.springboot_study.aspect.anntotation.PrintParamsAop)")
     // @PointCut : 어떤 메서드를 가로챌지 정함
+    @Pointcut("@annotation(com.korit.springboot_study.aspect.annotation.PrintParamsAop)")
     private void pointCut() {}
 
     @Around("pointCut()")
     // @Around : 메서드 실행 전후로 특정 작업을 수행
     // 로그 출력 로직
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature(); // 다운캐스팅
+        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
 
-        String[] parmeterNames = codeSignature.getParameterNames();
+        String[] parameterNames = codeSignature.getParameterNames();
         Object[] args = joinPoint.getArgs();
 
         log.error("로그를 출력합니다.");
 
-        for (int i = 0; i < parmeterNames.length; i++) {
-            System.out.println(parmeterNames[i] + ":" + args[i]);
+        for (int i = 0; i < parameterNames.length; i++) {
+            System.out.println(parameterNames[i] + ": " + args[i]);
         }
 
         Object result = joinPoint.proceed();

@@ -1,6 +1,6 @@
 package com.korit.springboot_study.controller;
 
-import com.korit.springboot_study.aspect.anntotation.PrintParamsAop;
+import com.korit.springboot_study.aspect.annotation.PrintParamsAop;
 import com.korit.springboot_study.dto.request.ReqSignupDto;
 import com.korit.springboot_study.dto.request.ReqSigninDto;
 import com.korit.springboot_study.dto.response.common.SuccessResponseDto;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 public class AuthenticationController {
 
     @Autowired
-    private  AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     @PrintParamsAop
     @PostMapping("/api/auth/signup")
@@ -37,4 +37,9 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(new SuccessResponseDto<>(authenticationService.signin(reqSigninDto)));
     }
 
+    @PostMapping("/api/auth/logout")
+    @ApiOperation(value = "로그아웃")
+    public ResponseEntity<SuccessResponseDto<?>> logout() {
+        return ResponseEntity.ok().body(new SuccessResponseDto<>(null));
+    }
 }
