@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const queryClient = new QueryClient({
+const queryClient = new QueryClient({ // react-query 를 제일 상단에 선언, 저장
   defaultOptions: {
     queries: {
       retry: 0,

@@ -68,30 +68,6 @@ function SignupPage(props) {
         }
     }
 
-    // const handleSignupButtonOnClick = async () => {
-    //     try {
-    //         const response = await api.post("/api/auth/signup", signupInput);
-    //         console.log(response.data);
-    //     }catch(error) {
-    //         console.error(error.response.data.data);
-    //         let newError = {};
-    //         const responseErrors = error.response.data.data;
-    //         for(let e of responseErrors) {
-    //             const errorEntry = Object.entries(e)[0];
-    //             newError = {
-    //                 ...newError,
-    //                 [errorEntry[0]]: errorEntry[1],
-    //             };
-    //         }
-    //         setErrors({
-    //             username: "",
-    //             password: "",
-    //             name: "",
-    //             email: "",
-    //             ...newError
-    //         });
-    //     }
-    // }
 
     console.log(errors);
 

@@ -21,7 +21,8 @@ function SigninPage(props) {
 
     const [ isSigninError, setSigninError ] = useState(false);
 
-    const handleInputOnBlur = (e) => {
+
+    const handleInputOnBlur = (e) => { // 공백을 확인
         const { name, value } = e.target;
         setErrors(prev => ({
             ...prev,
@@ -29,7 +30,7 @@ function SigninPage(props) {
         }));
     }
 
-    const handleSigninInputOnChange = (e) => {
+    const handleSigninInputOnChange = (e) => { // 입력값 최신화
         setSigninInput({
             ...signinInput,
             [e.target.name]: e.target.value,
@@ -38,11 +39,12 @@ function SigninPage(props) {
 
     const handleSigninButtonOnClick = async () => {
         if(Object.entries(errors).filter(entry => !!entry[1]).length > 0) {
+        // Object.entries() : 객체의 키-값 쌍을 배열 형태로 변환
             return;
         }
 
         try {
-            const response = await api.post("/api/auth/signin", signinInput);
+            const response = await api.post("/api/auth/signin", signinInput); // 
             const accessToken = response.data.data;
             setAccessToken(accessToken);
             queryClient.invalidateQueries({queryKey: ["userQuery"]});

@@ -7,11 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function MainHeader(props) {
     const navigate = useNavigate();
+
     const queryClient = useQueryClient();
     const userQueryData = queryClient.getQueryData(["userQuery"]);
+
+
     const handleLogoutOnClick = () => {
-		setAccessToken(null);
-		queryClient.invalidateQueries({
+		setAccessToken(null); // 로그아웃을 했으니까 null을 넣음 (axiosConfig.js)
+		queryClient.invalidateQueries({ // .invalidateQueries : 특정 키에 해당하는 캐시 데이터를 무효시킴.(로그아웃이니까)
             queryKey: ["userQuery"],
         });
 		navigate("/auth/signin");
