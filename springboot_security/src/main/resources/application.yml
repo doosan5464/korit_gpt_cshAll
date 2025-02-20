@@ -1,9 +1,9 @@
 spring:
   config:
     import: application-secret.yml
-    
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/study
-    username: root
-    password: 1q2w3e4r!
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
+    - /mappers/user/*.xml
+
+

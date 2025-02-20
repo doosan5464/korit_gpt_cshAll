@@ -22,3 +22,12 @@ export const setAccessToken = (token) => {
         localStorage.removeItem("AccessToken");
     }
 };
+
+// 마찬가지
+export const setRefreshToken = (token) => {
+    if (!!token) {
+        localStorage.setItem("RefreshToken", token);
+    } else {
+        localStorage.removeItem("RefreshToken");
+    }
+};

@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Container, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { api, setAccessToken } from '../../api/config/axiosConfig';
+import { api, setAccessToken, setRefreshToken } from '../../api/config/axiosConfig';
 import { useQueryClient } from '@tanstack/react-query';
 
 
@@ -44,11 +44,16 @@ function SigninPage(props) {
         }
 
         try {
-            const response = await api.post("/api/auth/signin", signinInput); // 
-            const accessToken = response.data.data;
+            const response = await api.post("/api/auth/signin", signinInput); // signinInput 데이터를 JSON으로 서버에 전달(body)
+            const accessToken = response.data.accessToken;
+            const refreshToken = response.data.refreshToken;
+
             setAccessToken(accessToken);
-            queryClient.invalidateQueries({queryKey: ["userQuery"]});
-            setSigninError(false);
+            setRefreshToken(refreshToken);
+
+            queryClient.invalidateQueries({queryKey: ["userQuery"]}); // 캐시 무효화
+
+            setSigninError(false); // 문제 없었으니 false로
             navigate("/");
         } catch(error) {
             setSigninError(true);

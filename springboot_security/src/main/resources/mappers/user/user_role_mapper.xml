@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot_security.mapper.UserRoleMapper">
+
+    <insert id="insert" keyProperty="userRoleId" useGeneratedKeys="true">
+        insert into user_role_tb
+        values(default, #{userId}, #{roleId})
+    </insert>
+
+    <insert id="insertSelective">
+        insert into
+            user_role_tb
+        select
+            0,
+            #{userId},
+            role_id
+        from
+            role_tb
+        where
+            role_name = #{roleName}
+    </insert>
+
+</mapper>
