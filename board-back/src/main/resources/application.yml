@@ -1,0 +1,51 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local_server, common, secret
+      blue: blue_server, common, secret
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local_server
+server:
+  port: 8080
+react:
+  server:
+    protocol: http
+    host: localhost
+    port: 5173
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue_server
+server:
+  port: 8080
+react:
+  server:
+    protocol: https
+    host: ??? ?? ?? ??(ip ?? ???)
+    port: 5173
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
+    - /mappers/user/*.xml
+
+
+
+
+
