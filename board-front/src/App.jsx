@@ -12,7 +12,7 @@ function App() {
 	return (
 		// Global styles={global} : 전역 스타일 적용
     	<>
-			<Global styles={global} /> 
+			<Global styles={global} />
 			<MainLayout>
 				<MainSidebar />
 				<MainContainer>
@@ -20,7 +20,7 @@ function App() {
 						<Route path="/auth/login" element={<LoginPage />} />
 						<Route path="/auth/join" element={<JoinPage />} />
 					</Routes>
-		
+					
 				</MainContainer>
 			</MainLayout>
     	</>

@@ -1,4 +1,4 @@
-package com.korit.boardback.entuty;
+package com.korit.boardback.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +22,6 @@ public class User {
     private int accountExpired;
     private int accountLocked;
     private int credentialsExpired;
-    private int accoutEnabled;
+    private int accountEnabled;
     private LocalDateTime createdAt;
 }

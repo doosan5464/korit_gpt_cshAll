@@ -20,35 +20,29 @@ function LoginPage(props) {
                                 <span css={s.oauth2Text}>Continue with Google</span>
                             </button>
                         </div>
-
                         <div css={s.groupBox}>
                             <button css={s.oauth2Button}>
                                 <div css={s.oauth2Icon}><SiNaver /></div>
                                 <span css={s.oauth2Text}>Continue with Naver</span>
                             </button>
                         </div>
-
                         <div css={s.groupBox}>
                             <button css={s.oauth2Button}>
                                 <div css={s.oauth2Icon}><SiKakao /></div>
                                 <span css={s.oauth2Text}>Continue with Kakao</span>
                             </button>
                         </div>
-
                     </div>
                     <div>
                         <div css={s.groupBox}>
                             <input css={s.textInput} type="text" placeholder='Enter your email address...' />
                         </div>
-
                         <div css={s.groupBox}>
                             <input css={s.textInput} type="password" placeholder='password...' />
                         </div>
-
                         <p css={s.accountMessage}>
                             계정이 없으시다면 지금 가입하세요. <Link to={"/auth/join"}>회원가입</Link>
                         </p>
-                        
                         <div css={s.groupBox}>
                             <button css={s.accountButton}>Login</button>
                         </div>
