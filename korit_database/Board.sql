@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: study
+-- Host: 127.0.0.1    Database: board_project
 -- ------------------------------------------------------
 -- Server version	8.0.40
 
@@ -24,10 +24,13 @@ DROP TABLE IF EXISTS `role_tb`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role_tb` (
   `role_id` int NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(45) NOT NULL,
+  `role_name` varchar(255) NOT NULL,
+  `role_name_kor` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL,
   PRIMARY KEY (`role_id`),
-  UNIQUE KEY `role_name_UNIQUE` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `role_name_UNIQUE` (`role_name`),
+  UNIQUE KEY `role_name_kor_UNIQUE` (`role_name_kor`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +39,7 @@ CREATE TABLE `role_tb` (
 
 LOCK TABLES `role_tb` WRITE;
 /*!40000 ALTER TABLE `role_tb` DISABLE KEYS */;
-INSERT INTO `role_tb` VALUES (2,'ROLE_ADMIN'),(3,'ROLE_MANAGER'),(1,'ROLE_USER');
+INSERT INTO `role_tb` VALUES (1,'ROLE_USER','일반사용자','2025-02-25 06:24:38'),(2,'ROLE_ADMIN','관리자','2025-02-25 06:24:38');
 /*!40000 ALTER TABLE `role_tb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,6 +54,7 @@ CREATE TABLE `user_role_tb` (
   `user_role_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
+  `created_at` timestamp NOT NULL,
   PRIMARY KEY (`user_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -73,12 +77,21 @@ DROP TABLE IF EXISTS `user_tb`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_tb` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `oauth2_name` varchar(255) DEFAULT NULL,
+  `oauth2_provider` varchar(255) DEFAULT NULL,
+  `profile_img` varchar(255) DEFAULT NULL,
+  `account_expired` int NOT NULL,
+  `account_locked` int NOT NULL,
+  `credentials_expired` int NOT NULL,
+  `account_enabled` int NOT NULL,
+  `created_at` timestamp NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +100,7 @@ CREATE TABLE `user_tb` (
 
 LOCK TABLES `user_tb` WRITE;
 /*!40000 ALTER TABLE `user_tb` DISABLE KEYS */;
-INSERT INTO `user_tb` VALUES (1,'테스트요','$2a$10$EROOoNL2K0dp0yzwcIr/POqIYgURv2v.fknNBPsE0aFtm/DLfQmn6','길동이형','푸하'),(2,'사용자','$2a$10$kUdz72PVTKhUgdx.6wwba.GOfu97AEGQeYYIUwCbFslYAE1yiG8L.','사용자','사용자이메일'),(3,'이름','$2a$10$CH/CHv13BoHlcUN5XPrOh./pVXTMjoJOP6l1KWINqNlCmuLC248/6','이름','이메일'),(4,'사용자','$2a$10$hB2cI1PdI2bq85qr4b6RJOMbxI1rfCphIQYNU2kHXW2O1JWCOZR7G','성명','이메일주소');
+INSERT INTO `user_tb` VALUES (1,'aaaa1','$2a$10$fbYIKR5x4TkDVUuwDNXLxePWVgwy0YzUFlAyFI5m3iF6.0DkX4z8m','aaaa1@gmail.com','aaaa1',NULL,NULL,NULL,1,1,1,1,'2025-02-25 04:44:26');
 /*!40000 ALTER TABLE `user_tb` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -100,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-07 17:48:03
+-- Dump completed on 2025-02-25 17:50:32
