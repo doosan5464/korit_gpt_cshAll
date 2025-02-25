@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.korit.boardback.mapper.UserMapper">
+
+    <resultMap id="roleResultMap" type="com.korit.boardback.entity.Role">
+        <id property="roleId" column="role_id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleNameKor" column="role_name_kor" />
+    </resultMap>
+
+    <resultMap id="userRoleResultMap" type="com.korit.boardback.entity.UserRole">
+        <id property="userRoleId" column="user_role_id" />
+        <result property="userId" column="urt_user_id" />
+        <result property="roleId" column="urt_role_id" />
+        <association property="role" resultMap="roleResultMap" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="com.korit.boardback.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="email" column="email" />
+        <result property="nickname" column="nickname" />
+        <result property="oAuth2Name" column="oauth2_name" />
+        <result property="oAuth2Provider" column="oauth2_provider" />
+        <result property="profileImg" column="profile_img" />
+        <result property="accountExpired" column="account_expired" />
+        <result property="accountLocked" column="account_locked" />
+        <result property="credentialsExpired" column="credentials_expired" />
+        <result property="accountEnabled" column="account_enabled" />
+        <result property="createdAt" column="created_at" />
+        <collection property="userRoles" javaType="java.util.Set" resultMap="userRoleResultMap" />
+    </resultMap>
+
+    <select id="selectById" resultMap="userResultMap">
+        select
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.email,
+            ut.nickname,
+            ut.oauth2_name,
+            ut.oauth2_provider,
+            ut.profile_img,
+            ut.account_expired,
+            ut.account_locked,
+            ut.credentials_expired,
+            ut.account_enabled,
+            ut.created_at,
+
+            urt.user_role_id,
+            urt.user_id as urt_user_id,
+            urt.role_id as urt_role_id,
+
+            rt.role_id,
+            rt.role_name,
+            rt.role_name_kor
+        from
+            user_tb ut
+            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = urt.role_id)
+        where
+            ut.user_id = #{userId}
+    </select>
+
+    <select id="selectByUsername" resultMap="userResultMap">
+        select
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.email,
+            ut.nickname,
+            ut.oauth2_name,
+            ut.oauth2_provider,
+            ut.profile_img,
+            ut.account_expired,
+            ut.account_locked,
+            ut.credentials_expired,
+            ut.account_enabled,
+            ut.created_at,
+
+            urt.user_role_id,
+            urt.user_id as urt_user_id,
+            urt.role_id as urt_role_id,
+
+            rt.role_id,
+            rt.role_name,
+            rt.role_name_kor
+        from
+            user_tb ut
+            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = urt.role_id)
+        where
+            ut.username = #{username}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into user_tb
+        values (
+            default,
+            #{username},
+            #{password},
+            #{email},
+            #{nickname},
+            #{oAuth2Name},
+            #{oAuth2Provider},
+            #{profileImg},
+            #{accountExpired},
+            #{accountLocked},
+            #{credentialsExpired},
+            #{accountEnabled},
+            now()
+        )
+    </insert>
+</mapper>
