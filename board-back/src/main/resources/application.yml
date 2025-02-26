@@ -1,47 +1,50 @@
-# 현재 활성화된 프로파일을 'local'로 설정
 spring:
   profiles:
-    active: local  # 현재 활성화된 프로파일: 'local'
+    active: local
     group:
-      # 각 프로파일에 따라 활성화될 프로파일들을 설정
-      local: local_server, common, secret  # 'local' 프로파일은 'local_server', 'common', 'secret' 프로파일 활성화
-      blue: blue_server, common, secret   # 'blue' 프로파일은 'blue_server', 'common', 'secret' 프로파일 활성화
+      local: local_server, common, secret
+      blue: blue_server, common, secret
 
 ---
-# 'local_server' 프로파일에 해당하는 설정
+
 spring:
   config:
     activate:
-      on-profile: local_server  # 'local_server' 프로파일 활성화 시 적용되는 설정
+      on-profile: local_server
 server:
-  port: 8080  # 로컬 서버 포트 설정
+  port: 8080
 react:
   server:
-    protocol: http  # 프로토콜: http
-    host: localhost  # 호스트: localhost
-    port: 5173  # 포트: 5173
+    protocol: http
+    host: localhost
+    port: 5173
 
 ---
-# 'blue_server' 프로파일에 해당하는 설정
+
 spring:
   config:
     activate:
-      on-profile: blue_server  # 'blue_server' 프로파일 활성화 시 적용되는 설정
+      on-profile: blue_server
 server:
-  port: 8080  # 서버 포트 설정
+  port: 8080
 react:
   server:
-    protocol: https  # 프로토콜: https
-    host: ??? ?? ?? ??(ip ?? ???)  # 호스트를 IP로 설정해야 하며, 해당 IP를 여기에 넣어야 함
-    port: 5173  # 포트: 5173
+    protocol: https
+    host: ??? ?? ?? ??(ip ?? ???)
+    port: 5173
 
 ---
-# 'common' 프로파일에 해당하는 설정
+
 spring:
   config:
     activate:
-      on-profile: common  # 'common' 프로파일 활성화 시 적용되는 설정
+      on-profile: common
+  servlet:
+    multipart:
+      max-file-size: 100MB  #업로드 가능한 단일 파일 최대크기
+      max-request-size: 1000MB  #한번의 요청에서 묶음으로 받을 수 있는 최대크기
+
 mybatis:
   mapper-locations:
-    - /mappers/*.xml  # MyBatis 매퍼 파일 경로 설정
-    - /mappers/user/*.xml  # 추가적인 MyBatis 매퍼 파일 경로 설정
+    - /mappers/*.xml
+    - /mappers/user/*.xml

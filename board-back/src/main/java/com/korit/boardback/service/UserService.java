@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
+    @Autowired
+    private FileService fileService;
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -77,6 +80,14 @@ public class UserService {
                 user.getUsername(),
                 Integer.toString(user.getUserId()),
                 expires);
+    }
+
+    public void updateProfileImg(User user, MultipartFile file) {
+        final String PROFILE_IMG_FILE_PATH = "/upload/user/profile"; // 이미지 경로
+        String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file); // 프로필 이미지 최신화 (백엔드)
+        userRepository.updateProfileImg(user.getUserId(), savedFileName); // db에 새 이미지 정보 저장
+        if(user.getProfileImg() == null) {return;} // 삭제 전 원래 있는 이미지가 있는지 확인
+        fileService.deleteFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg()); // user.getProfileImg() -> 업데이트 전 이미지
     }
 
 }

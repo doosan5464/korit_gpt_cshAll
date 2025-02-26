@@ -24,4 +24,8 @@ public class UserRepository {
         userMapper.insert(user);
         return user;
     }
+
+    public void updateProfileImg(int userId, String profileImg) {
+        userMapper.updateProfileImgById(userId, profileImg);
+    }
 }

@@ -31,8 +31,16 @@
         <result property="credentialsExpired" column="credentials_expired" />
         <result property="accountEnabled" column="account_enabled" />
         <result property="createdAt" column="created_at" />
-        <collection property="userRoles" javaType="java.util.Set" resultMap="userRoleResultMap" />
+        <collection property="userRoles" resultMap="userRoleResultMap" />
     </resultMap>
+
+    <update id="updateProfileImgById">
+        update user_tb
+        set
+            profile_img = #{profileImg}
+        where
+            user_id = #{userId}
+    </update>
 
     <select id="selectById" resultMap="userResultMap">
         select

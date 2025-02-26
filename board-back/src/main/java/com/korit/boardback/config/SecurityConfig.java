@@ -19,7 +19,6 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -33,7 +32,7 @@ public class SecurityConfig {
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests(authorizeRequests -> {
-            authorizeRequests.requestMatchers("/api/auth/**").permitAll();
+            authorizeRequests.requestMatchers("/api/auth/**", "/image/**").permitAll();
             authorizeRequests.anyRequest().authenticated();
         });
 
