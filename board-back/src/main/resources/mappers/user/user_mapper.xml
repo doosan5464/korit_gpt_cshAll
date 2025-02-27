@@ -37,88 +37,104 @@
     <update id="updateProfileImgById">
         update user_tb
         set
-            profile_img = #{profileImg}
+        profile_img = #{profileImg}
         where
-            user_id = #{userId}
+        user_id = #{userId}
+    </update>
+
+    <update id="updateNicknameById">
+        update user_tb
+        set
+        nickname = #{nickname}
+        where
+        user_id = #{userId}
+    </update>
+
+    <update id="updatePasswordById">
+        update user_tb
+        set
+        password = #{password}
+        where
+        user_id = #{userId}
     </update>
 
     <select id="selectById" resultMap="userResultMap">
         select
-            ut.user_id,
-            ut.username,
-            ut.password,
-            ut.email,
-            ut.nickname,
-            ut.oauth2_name,
-            ut.oauth2_provider,
-            ut.profile_img,
-            ut.account_expired,
-            ut.account_locked,
-            ut.credentials_expired,
-            ut.account_enabled,
-            ut.created_at,
+        ut.user_id,
+        ut.username,
+        ut.password,
+        ut.email,
+        ut.nickname,
+        ut.oauth2_name,
+        ut.oauth2_provider,
+        ut.profile_img,
+        ut.account_expired,
+        ut.account_locked,
+        ut.credentials_expired,
+        ut.account_enabled,
+        ut.created_at,
 
-            urt.user_role_id,
-            urt.user_id as urt_user_id,
-            urt.role_id as urt_role_id,
+        urt.user_role_id,
+        urt.user_id as urt_user_id,
+        urt.role_id as urt_role_id,
 
-            rt.role_id,
-            rt.role_name,
-            rt.role_name_kor
+        rt.role_id,
+        rt.role_name,
+        rt.role_name_kor
         from
-            user_tb ut
-            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
-            left outer join role_tb rt on(rt.role_id = urt.role_id)
+        user_tb ut
+        left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+        left outer join role_tb rt on(rt.role_id = urt.role_id)
         where
-            ut.user_id = #{userId}
+        ut.user_id = #{userId}
     </select>
 
     <select id="selectByUsername" resultMap="userResultMap">
         select
-            ut.user_id,
-            ut.username,
-            ut.password,
-            ut.email,
-            ut.nickname,
-            ut.oauth2_name,
-            ut.oauth2_provider,
-            ut.profile_img,
-            ut.account_expired,
-            ut.account_locked,
-            ut.credentials_expired,
-            ut.account_enabled,
-            ut.created_at,
+        ut.user_id,
+        ut.username,
+        ut.password,
+        ut.email,
+        ut.nickname,
+        ut.oauth2_name,
+        ut.oauth2_provider,
+        ut.profile_img,
+        ut.account_expired,
+        ut.account_locked,
+        ut.credentials_expired,
+        ut.account_enabled,
+        ut.created_at,
 
-            urt.user_role_id,
-            urt.user_id as urt_user_id,
-            urt.role_id as urt_role_id,
+        urt.user_role_id,
+        urt.user_id as urt_user_id,
+        urt.role_id as urt_role_id,
 
-            rt.role_id,
-            rt.role_name,
-            rt.role_name_kor
+        rt.role_id,
+        rt.role_name,
+        rt.role_name_kor
         from
-            user_tb ut
-            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
-            left outer join role_tb rt on(rt.role_id = urt.role_id)
+        user_tb ut
+        left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+        left outer join role_tb rt on(rt.role_id = urt.role_id)
         where
-            ut.username = #{username}
+        ut.username = #{username}
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
         insert into user_tb
         values (
-            default,
-            #{username},
-            #{password},
-            #{email},
-            #{nickname},
-            #{oAuth2Name},
-            #{oAuth2Provider},
-            #{profileImg},
-            #{accountExpired},
-            #{accountLocked},
-            #{credentialsExpired},
-            #{accountEnabled},
-            now()
+        default,
+        #{username},
+        #{password},
+        #{email},
+        #{nickname},
+        #{oAuth2Name},
+        #{oAuth2Provider},
+        #{profileImg},
+        #{accountExpired},
+        #{accountLocked},
+        #{credentialsExpired},
+        #{accountEnabled},
+        now()
         )
     </insert>
 </mapper>

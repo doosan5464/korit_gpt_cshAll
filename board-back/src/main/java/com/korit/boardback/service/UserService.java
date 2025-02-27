@@ -33,6 +33,8 @@ public class UserService {
     private UserRoleRepository userRoleRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private EmailService emailService;
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -54,7 +56,7 @@ public class UserService {
                 .accountExpired(1)
                 .accountLocked(1)
                 .credentialsExpired(1)
-                .accountEnabled(1)
+                .accountEnabled(0)
                 .build();
         userRepository.save(user);
         UserRole userRole = UserRole.builder()
@@ -62,6 +64,11 @@ public class UserService {
                 .roleId(1)
                 .build();
         userRoleRepository.save(userRole);
+        try {
+            emailService.sendAuthMail(reqJoinDto.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user;
     }
 
@@ -82,12 +89,24 @@ public class UserService {
                 expires);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void updateProfileImg(User user, MultipartFile file) {
-        final String PROFILE_IMG_FILE_PATH = "/upload/user/profile"; // 이미지 경로
-        String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file); // 프로필 이미지 최신화 (백엔드)
-        userRepository.updateProfileImg(user.getUserId(), savedFileName); // db에 새 이미지 정보 저장
-        if(user.getProfileImg() == null) {return;} // 삭제 전 원래 있는 이미지가 있는지 확인
-        fileService.deleteFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg()); // user.getProfileImg() -> 업데이트 전 이미지
+        final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
+        String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file);
+        userRepository.updateProfileImg(user.getUserId(), savedFileName);
+        if(user.getProfileImg() == null) {return;}
+        fileService.deleteFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateNickname(User user, String nickname) {
+        userRepository.updateNickname(user.getUserId(), nickname);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePassword(User user, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        userRepository.updatePassword(user.getUserId(), encodedPassword);
     }
 
 }
