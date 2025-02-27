@@ -6,11 +6,12 @@ import { mainSidebarIsOpenState } from '../../../atoms/mainSidebar/mainSidebarAt
 import { FiChevronsRight } from 'react-icons/fi';
 import { basicButton } from '../../../styles/buttons';
 
-function MainContainer({ children }) { // mainSidebarIsOpenState : 전역 Recoil 상태
-    const [ isOpen, setOpen ] = useRecoilState(mainSidebarIsOpenState); 
-    // isOpen : 현재 사이드바 상태 (true면 열림, false면 닫힘)
+function MainContainer({ children }) { // 하위 컴포넌트 렌더링
 
-    const handleSidebarOpen = () => { // 사이드바 열기 버튼을 누르면 isOpen이 true
+    const [ isOpen, setOpen ] = useRecoilState(mainSidebarIsOpenState); 
+    // 열려있는 상태인 Recoil의 atom 함수를 초기값으로 true, false
+
+    const handleSidebarOpen = () => {
         setOpen(true)
     }
 
@@ -18,7 +19,7 @@ function MainContainer({ children }) { // mainSidebarIsOpenState : 전역 Recoil
         <div css={s.container}>
             <header css={s.header}>
                 {
-                    !isOpen && // isOpen이 false일 때만 사이드바 열기 버튼을 표시
+                    !isOpen && 
                     <span css={s.sidebarOpenButton}>
                         <button css={basicButton} onClick={handleSidebarOpen}><FiChevronsRight /></button>
                     </span>

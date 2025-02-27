@@ -1,11 +1,5 @@
 import { css } from "@emotion/react";
 
-export const groupBox = css`
-    box-sizing: border-box;
-    padding: 0.6rem 0;
-    width: 32.6rem;
-`;
-
 export const layout = css`
     display: flex;
     justify-content: center;
@@ -13,6 +7,12 @@ export const layout = css`
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+`;
+
+export const groupBox = css`
+    box-sizing: border-box;
+    padding: 0.6rem 0;
+    width: 32.6rem;
 `;
 
 export const title1 = css`

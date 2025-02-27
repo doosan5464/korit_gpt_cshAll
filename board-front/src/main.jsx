@@ -5,7 +5,18 @@ import { RecoilRoot } from 'recoil'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const queryClient = new QueryClient({
+import Modal from "react-modal";
+
+/*
+react-modal
+: React에서 모달 창을 쉽게 구현할 수 있게 해주는 라이브러리
+  특정 이벤트(버튼 클릭 등)가 발생했을 때 뜨는 팝업 창
+  setOpen(true, false) 로 관리
+*/
+Modal.setAppElement("#root"); // 모달이 열릴 때 백그라운드 요소들을 비활성화
+
+
+const queryClient = new QueryClient({ // QueryClient의 설정을 정의
   defaultOptions: {
     queries: {
       retry: 1
@@ -16,19 +27,13 @@ const queryClient = new QueryClient({
   }
 });
 
-createRoot(document.getElementById('root')).render( 
-// createRoot(document.getElementById('root')) : React 18의 새로운 렌더링 방식 사용.
-  <StrictMode> 
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}> 
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </RecoilRoot>
-  </StrictMode>,
-  // StrictMode : React 개발 모드에서 잠재적 문제 감지
-  // RecoilRoot : Recoil을 전역 상태 관리 라이브러리로 사용
-  // QueryClientProvider : React 애플리케이션에서 React Query의 기능을 사용할 수 있도록 설정해주는 역할 - 원래 이렇게 한다고 함
-  // BrowserRouter : React Router로 페이지 라우팅을 관리 -> App.jsx
+
+createRoot(document.getElementById('root')).render(
+  <RecoilRoot> {/* Recoil의 상태는 atom과 selector를 통해 관리 */}
+    <QueryClientProvider client={queryClient}> {/* queryClient 객체를 제공 */}
+      <BrowserRouter> {/* BrowserRouter : React Router의 라우팅 기능을 활성화하는 컴포넌트 */}
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
+  </RecoilRoot>
 )

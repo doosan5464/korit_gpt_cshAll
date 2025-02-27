@@ -9,37 +9,21 @@ import { useJoinMutation } from '../../mutations/authMutation';
 
 function JoinPage(props) {
     const navigate = useNavigate();
-    const joinMutaion = useJoinMutation();
+    const joinMutation = useJoinMutation(); // authMutation중 joinMutation. 회원가입 - post요청
 
-    const [ inputValue, setInputValue ] = useState({
+    const [ inputValue, setInputValue ] = useState({ // 회원가입때 넣을 정보들
         username: "",
         email: "",
         password: "",
         passwordCheck: "",
     }); 
-    const handleInputOnChange = (e) => {
+    const handleInputOnChange = (e) => { // 회원가입 창 최신화
         setInputValue(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
     }
-
-    const [ inputValidError, setInputValidError ] = useState({
-        username: false,
-        email: false,
-        password: false,
-        passwordCheck: false,
-    });
-
-    
-
-    const isErrors = () => {
-        const isEmpty = Object.values(inputValue).map(value => !!value).includes(false);
-        const isValid = Object.values(inputValidError).includes(true);
-        return isEmpty || isValid;
-    }
-
-    const handlePasswordOnFocus = () => {
+    const handlePasswordOnFocus = () => { // 비밀번호 입력창을 클릭하면(onFocus), 기존에 입력한 비밀번호와 비밀번호 확인을 자동으로 지워줌
         setInputValue(prev => ({
             ...prev,
             password: "",
@@ -47,22 +31,39 @@ function JoinPage(props) {
         }));
     }
 
+    // 에러가 있는지 확인하는 Hook함수. false면 정상인거고 true면 밑에서 에러처리하면서 바꾼거임
+    const [ inputValidError, setInputValidError ] = useState({
+        username: false,
+        email: false,
+        password: false,
+        passwordCheck: false,
+    });
+    const isErrors = () => { // 최종적으로 회원가입 버튼을 누를시 검사할 에러 함수
+        const isEmpty = Object.values(inputValue).map(value => !!value).includes(false); // !!로 논리형으로 바꾸면서 빈값이면 false가 됨
+        const isValid = Object.values(inputValidError).includes(true); 
+        return isEmpty || isValid; // 둘 중 하나라도 true면 true 반환
+    }
+
+
+
+
     const handleJoinOnClick = () => {
         if(isErrors()) {
             alert("가입 정보를 다시 확인해주세요.");
             return;
         }
         
-        joinMutaion.mutateAsync({
+        joinMutation.mutateAsync({ // 회원가입 post 요청에 inputValue 속성들 투입
             username: inputValue.username, 
             email: inputValue.email, 
             password: inputValue.password,
-        }).then(response => {
+        }).then(response => { // .then() : Promise(프로미스)가 성공적으로 완료된 후 실행할 콜백 함수를 지정하는 메서드
             alert("가입해 주셔서 감사합니다.");
             navigate(`/auth/login?username=${response.data.username}`);
+            // 회원가입이 성공한 후, 로그인 페이지(/auth/login)로 이동하면서 username을 URL에 쿼리 파라미터로 포함
         }).catch(error => {
             if(error.status === 400){
-                setInputValidError(prev => ({
+                setInputValidError(prev => ({ // 에러가 있다면 true 설정 (통과 못하게 하려고)
                     ...prev,
                     username: true,
                 }));
